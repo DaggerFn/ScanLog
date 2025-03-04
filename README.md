@@ -1,7 +1,3 @@
-Aqui está uma sugestão de descrição para o seu repositório no GitHub:  
-
----
-
 # 📱 QRScanAPI – Scanner de QR Codes com Expo e Flask  
 
 QRScanAPI é um aplicativo mobile desenvolvido em **React Native** com **Expo**, que permite a leitura de **QR Codes** e seu armazenamento em um banco de dados **SQLite** via uma **API Flask**.  
