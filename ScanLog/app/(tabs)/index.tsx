@@ -44,6 +44,7 @@ export default function Index() {
 
   const [name, setName] = useState("");
 
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Gestão de Materiais: {name}</Text>
