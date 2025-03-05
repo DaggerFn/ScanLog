@@ -2,18 +2,18 @@
 
 QRScanAPI é um aplicativo mobile desenvolvido em **React Native** com **Expo**, que permite a leitura de **QR Codes** e seu armazenamento em um banco de dados **SQLite** via uma **API Flask**.  
 
-## ✨ Funcionalidades  
+## Funcionalidades  
 ✅ Escaneia QR Codes rapidamente 📷  
 ✅ Registra os códigos escaneados em um banco de dados SQLite 🗄️  
 ✅ Exibe os códigos armazenados em uma tabela 📋  
 ✅ Comunicação via API desenvolvida com Flask 🔗  
 
-## 🚀 Tecnologias utilizadas  
+## Tecnologias utilizadas  
 - **React Native** (com Expo)  
 - **Flask** (API)  
 - **SQLite** (banco de dados)  
 
-## ⚡ Como rodar o projeto  
+## Como rodar o projeto  
 
 ### Backend (Flask API)  
 1. Clone o repositório:  
@@ -37,13 +37,9 @@ QRScanAPI é um aplicativo mobile desenvolvido em **React Native** com **Expo**,
    expo start
    ```
 
-## 📌 Próximos passos  
-- Melhorar a interface do usuário 🎨  
-- Implementar autenticação 🔐  
-- Sincronização em tempo real 🔄  
-
-Sinta-se à vontade para contribuir! 🚀  
+## Próximos passos  
+- Melhorar a interface do usuário   
+- Implementar autenticação   
+- Sincronização em tempo real 
 
 ---
-
-Se quiser personalizar alguma parte ou adicionar mais detalhes, me avise! 😃
