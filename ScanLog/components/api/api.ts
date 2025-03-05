@@ -25,11 +25,12 @@ export const getMateriais = async () => {
 // Função POST - Criar um novo material
 export const createMaterial = async (material: {
   id_material: string;
-  localce_material: string;
+  locale_material: string;
   description_material: string;
 }) => {
   try {
     const response = await api.post("/", material);
+    console.log(response);
     return response.data;
   } catch (error) {
     console.error("Erro ao criar material:", error);
@@ -40,7 +41,7 @@ export const createMaterial = async (material: {
 // Função PUT - Atualizar um material
 export const updateMaterial = async (
   id: string,
-  updatedData: { localce_material: string; description_material: string }
+  updatedData: { locale_material: string; description_material: string }
 ) => {
   try {
     const response = await api.put(`/${id}`, updatedData);
