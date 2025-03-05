@@ -1,7 +1,8 @@
 import axios from "axios";
 
 // URL base da API Flask
-const API_URL = "http://127.0.0.1:4000/materiais"; // Altere se necessário
+// const API_URL = "http://127.0.0.1:4000"; // Altere se necessário
+const API_URL = "http://192.168.106.147:4000"; // Altere se necessário
 
 // Criando uma instância do Axios
 const api = axios.create({
@@ -14,7 +15,7 @@ const api = axios.create({
 // Função GET - Buscar todos os materiais
 export const getMateriais = async () => {
   try {
-    const response = await api.get("/");
+    const response = await api.get("/materiais");
     return response.data;
   } catch (error) {
     console.error("Erro ao buscar materiais:", error);
@@ -29,7 +30,7 @@ export const createMaterial = async (material: {
   description_material: string;
 }) => {
   try {
-    const response = await api.post("/", material);
+    const response = await api.post("/materiais", material);
     console.log(response);
     return response.data;
   } catch (error) {
@@ -55,7 +56,7 @@ export const updateMaterial = async (
 // Função DELETE - Deletar um material
 export const deleteMaterial = async (id: string) => {
   try {
-    const response = await api.delete(`/${id}`);
+    const response = await api.delete(`/materiais/${id}`);
     return response.data;
   } catch (error) {
     console.error("Erro ao deletar material:", error);
