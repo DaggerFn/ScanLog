@@ -1,5 +1,5 @@
-import React from "react";
-import { Modal, View, Text, Button, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Modal, View, Text, Button, StyleSheet, FlatList } from "react-native";
 import { searchMaterial } from "./api/api";
 
 interface ScannerModalProps {
@@ -12,7 +12,19 @@ interface ScannerModalProps {
 
 
 const ScannerModal: React.FC<ScannerModalProps> = ({ visible, scannedData, onClose }) => {
+  const [materiais, setMateriais] = useState([]);
+  const [nome, setNome] = useState("");
+  const [local, setLocal] = useState("");
+  const [id, setId] = useState("");
 
+    const fetchMateriais = async () => {
+      try {
+        const data = await searchMaterial(scannedData);
+        setMateriais(data);
+      } catch (error) {
+        console.error("Erro ao carregar materiais:", error);
+      }
+    };
 
   return (
     <Modal transparent animationType="fade" visible={visible} onRequestClose={onClose}>
@@ -20,7 +32,18 @@ const ScannerModal: React.FC<ScannerModalProps> = ({ visible, scannedData, onClo
         <View style={styles.modalContent}>
           <Text style={styles.text}>QR Code Escaneado:</Text>
           <Text style={styles.data}>{scannedData}</Text>
-
+          <Button title="data" onPress={fetchMateriais}/>
+              <FlatList
+                data={materiais}
+                keyExtractor={(item) => item.id_material.toString()}
+                renderItem={({ item }) => (
+                  <View style={{ marginVertical: 10, padding: 10, borderWidth: 1, borderRadius: 5 }}>
+                    <Text>ID: {item.id_material}</Text>
+                    <Text>Nome: {item.description_material}</Text>
+                    <Text>Local: {item.locale_material}</Text>
+                  </View>
+                )}
+              />
           <Button title="Fechar" onPress={onClose} />
         </View>
       </View>

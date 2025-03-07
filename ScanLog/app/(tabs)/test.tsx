@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Button, FlatList, TextInput } from "react-native";
-import { getMateriais, createMaterial, updateMaterial, deleteMaterial } from '../../components/api/api'
+import { getMateriais, createMaterial, updateMaterial, deleteMaterial, searchMaterial } from '../../components/api/api'
 
 export default function App() {
   const [materiais, setMateriais] = useState([]);
@@ -71,7 +71,7 @@ export default function App() {
       
       <Button title="Criar Material" onPress={handleCreate} />
       <Button title="Atualizar Material" onPress={handleUpdate} />
-
+      <Button title="Console do data row" onPress={searchMaterial} />
       {/* Lista de materiais */}
       <FlatList
         data={materiais}
