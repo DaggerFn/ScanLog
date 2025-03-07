@@ -64,4 +64,15 @@ export const deleteMaterial = async (id: string) => {
   }
 };
 
+export const searchMaterial = async (id: string) => {
+  try {
+    const response = await api.get(`/materiais/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao buscar materiais:", error);
+    throw error;
+  }
+};
+
+
 export default api;

@@ -1,5 +1,6 @@
 import React from "react";
 import { Modal, View, Text, Button, StyleSheet } from "react-native";
+import { searchMaterial } from "./api/api";
 
 interface ScannerModalProps {
   visible: boolean;
@@ -7,13 +8,19 @@ interface ScannerModalProps {
   onClose: () => void;
 }
 
+
+
+
 const ScannerModal: React.FC<ScannerModalProps> = ({ visible, scannedData, onClose }) => {
+
+
   return (
-    <Modal transparent animationType="slide" visible={visible} onRequestClose={onClose}>
+    <Modal transparent animationType="fade" visible={visible} onRequestClose={onClose}>
       <View style={styles.overlay}>
         <View style={styles.modalContent}>
           <Text style={styles.text}>QR Code Escaneado:</Text>
           <Text style={styles.data}>{scannedData}</Text>
+
           <Button title="Fechar" onPress={onClose} />
         </View>
       </View>
