@@ -66,7 +66,7 @@ export const deleteMaterial = async (id: string) => {
   }
 };
 
-export const searchMaterial = async (id: string) => {
+export const searchMaterial = async (id: unknown) => {
   // const id: string = '123123f4'
 
   try {

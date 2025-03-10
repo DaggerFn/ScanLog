@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Button, FlatList, TextInput } from "react-native";
-import { getMateriais, createMaterial, updateMaterial, deleteMaterial, searchMaterial } from '../../components/api/api'
+import {
+  getMateriais,
+  createMaterial,
+  updateMaterial,
+  deleteMaterial,
+  searchMaterial,
+} from "../../components/api/api";
 
 export default function App() {
   const [materiais, setMateriais] = useState([]);
-  const [nome, setNome] = useState("");
+  const [id_material, setId] = useState("");
   const [local, setLocal] = useState("");
-  const [id, setId] = useState("");
+  const [description_material, setdescription_material] = useState("");
+  const [quantidade, setQuantidade] = useState("");
 
   // Buscar materiais ao iniciar o app
   useEffect(() => {
@@ -23,13 +30,15 @@ export default function App() {
   };
 
   const handleCreate = async () => {
-    if (!id || !nome || !local) return alert("Preencha todos os campos!");
+    if (!id_material || !description_material || !local)
+      return alert("Preencha todos os campos!");
 
     try {
       await createMaterial({
-        id_material: id,
+        id_material: id_material,
         locale_material: local,
-        description_material: nome,
+        quantidade: quantidade,
+        description_material: description_material,
       });
       alert("Material criado com sucesso!");
       fetchMateriais(); // Atualiza a lista
@@ -39,10 +48,14 @@ export default function App() {
   };
 
   const handleUpdate = async () => {
-    if (!id || !nome || !local) return alert("Preencha todos os campos!");
+    if (!id_material || !description_material || !local)
+      return alert("Preencha todos os campos!");
 
     try {
-      await updateMaterial(id, { locale_material: local, description_material: nome });
+      await updateMaterial(id_material, {
+        locale_material: local,
+        description_material: description_material,
+      });
       alert("Material atualizado com sucesso!");
       fetchMateriais();
     } catch (error) {
@@ -65,26 +78,58 @@ export default function App() {
       <Text style={{ fontSize: 20, fontWeight: "bold" }}>Materiais</Text>
 
       {/* Campos para criar/atualizar */}
-      <TextInput placeholder="ID" value={id} onChangeText={setId} style={{ borderBottomWidth: 1, marginBottom: 10 }} />
-      <TextInput placeholder="Nome" value={nome} onChangeText={setNome} style={{ borderBottomWidth: 1, marginBottom: 10 }} />
-      <TextInput placeholder="Local" value={local} onChangeText={setLocal} style={{ borderBottomWidth: 1, marginBottom: 10 }} />
-      
+      <TextInput
+        placeholder="N° do Material"
+        value={id_material}
+        onChangeText={setId}
+        style={{ borderBottomWidth: 1, marginBottom: 10 }}
+      />
+      <TextInput
+        placeholder="Local"
+        value={local}
+        onChangeText={setLocal}
+        style={{ borderBottomWidth: 1, marginBottom: 10 }}
+      />
+      <TextInput
+        placeholder="Quantidade"
+        value={local}
+        onChangeText={setQuantidade}
+        style={{ borderBottomWidth: 1, marginBottom: 10 }}
+      />
+      <TextInput
+        placeholder="Descrição"
+        value={description_material}
+        onChangeText={setdescription_material}
+        style={{ borderBottomWidth: 1, marginBottom: 10 }}
+      />
+
       <Button title="Criar Material" onPress={handleCreate} />
       <Button title="Atualizar Material" onPress={handleUpdate} />
       <Button title="Console do data row" onPress={searchMaterial} />
       {/* Lista de materiais */}
-      <FlatList
+      {/* <FlatList
         data={materiais}
         keyExtractor={(item) => item.id_material.toString()}
         renderItem={({ item }) => (
-          <View style={{ marginVertical: 10, padding: 10, borderWidth: 1, borderRadius: 5 }}>
+          <View
+            style={{
+              marginVertical: 10,
+              padding: 10,
+              borderWidth: 1,
+              borderRadius: 5,
+            }}
+          >
             <Text>ID: {item.id_material}</Text>
-            <Text>Nome: {item.description_material}</Text>
+            <Text>description_material: {item.description_material}</Text>
             <Text>Local: {item.locale_material}</Text>
-            <Button title="Deletar" onPress={() => handleDelete(item.id_material)} />
+            <Text>Qtd: {item.quantidade}</Text>
+            <Button
+              title="Deletar"
+              onPress={() => handleDelete(item.id_material)}
+            />
           </View>
         )}
-      />
+      /> */}
     </View>
   );
 }

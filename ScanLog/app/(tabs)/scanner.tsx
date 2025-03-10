@@ -4,6 +4,7 @@ import { Stack } from "expo-router";
 import { useState } from "react";
 import { StyleSheet, SafeAreaView } from "react-native";
 import ScannerModal from "@/components/ScannerModal";
+import React from "react";
 
 export default function Home() {
   const [scannedData, setScannedData] = useState<string | null>(null);
@@ -18,8 +19,12 @@ export default function Home() {
   return (
     <SafeAreaView style={StyleSheet.absoluteFillObject}>
       <Stack.Screen options={{ title: "Overview", headerShown: false }} />
-      
-      <CameraView style={StyleSheet.absoluteFill} facing="back" onBarcodeScanned={handleBarcodeScanned} />
+
+      <CameraView
+        style={StyleSheet.absoluteFill}
+        facing="back"
+        onBarcodeScanned={handleBarcodeScanned}
+      />
 
       {/* Modal de exibição do QR Code */}
       <ScannerModal
