@@ -27,7 +27,7 @@ const ScannerModal: React.FC<ScannerModalProps> = ({ visible, scannedData, onClo
     };
 
   return (
-    <Modal transparent animationType="fade" visible={visible} onRequestClose={onClose}>
+    <Modal transparent animationType="slide" visible={visible} onRequestClose={onClose}>
       <View style={styles.overlay}>
         <View style={styles.modalContent}>
           <Text style={styles.text}>QR Code Escaneado:</Text>

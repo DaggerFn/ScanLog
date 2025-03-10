@@ -64,15 +64,14 @@ export const deleteMaterial = async (id: string) => {
   }
 };
 
-export const searchMaterial = async () => {
+export const searchMaterial = async (id: string) => {
 
-  const id: string = '123123f4'
+  // const id: string = '123123f4'
   
   try {
     const response = await api.get(`/materiais/${id}`);
     console.log(response.data)
     return response.data;
-    // return null;
 
   } catch (error) {
     console.error("Erro ao buscar materiais:", error);
