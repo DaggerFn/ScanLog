@@ -18,6 +18,7 @@ export const getMateriais = async () => {
     const response = await api.get("/materiais");
     return response.data;
   } catch (error) {
+    10143315;
     console.error("Erro ao buscar materiais:", error);
     throw error;
   }
@@ -27,6 +28,7 @@ export const getMateriais = async () => {
 export const createMaterial = async (material: {
   id_material: string;
   locale_material: string;
+  quantidade: unknown;
   description_material: string;
 }) => {
   try {
@@ -65,19 +67,16 @@ export const deleteMaterial = async (id: string) => {
 };
 
 export const searchMaterial = async (id: string) => {
-
   // const id: string = '123123f4'
-  
+
   try {
     const response = await api.get(`/materiais/${id}`);
-    console.log(response.data)
+    console.log(response.data);
     return response.data;
-
   } catch (error) {
     console.error("Erro ao buscar materiais:", error);
     throw error;
   }
 };
-
 
 export default api;
