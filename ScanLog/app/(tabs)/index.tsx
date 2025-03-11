@@ -1,4 +1,5 @@
-{/*import { StyleSheet } from 'react-native';
+{
+  /*import { StyleSheet } from 'react-native';
 import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
 
@@ -28,22 +29,19 @@ const styles = StyleSheet.create({
     width: '80%',
   },
 });
-*/}
+*/
+}
 
 import { View, Text, StyleSheet, Alert } from "react-native";
 import { useState } from "react";
 import { Input } from "@/components/input";
 
-
 export default function Index() {
-
   function handleMessage() {
     Alert.alert("No camera device found");
   }
 
-
   const [name, setName] = useState("");
-
 
   return (
     <View style={styles.container}>
@@ -68,21 +66,21 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 8,
   },
-  dataArea:{
+  dataArea: {
     justifyContent: "space-between",
-    flexDirection: 'row'
+    flexDirection: "row",
   },
   title: {
     alignItems: "center",
     color: "blue",
     fontSize: 36,
     fontWeight: "bold",
-    width: '100%',
+    width: "100%",
   },
   CameraElement: {
     backgroundColor: "orange",
     flex: 2,
     height: 100,
-    width: 150,  
-  }
+    width: 150,
+  },
 });

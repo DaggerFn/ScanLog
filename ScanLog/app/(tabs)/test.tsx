@@ -16,9 +16,9 @@ export default function App() {
   const [quantidade, setQuantidade] = useState("");
 
   // Buscar materiais ao iniciar o app
-  useEffect(() => {
-    fetchMateriais();
-  }, []);
+  // useEffect(() => {
+  //   fetchMateriais();
+  // }, []);
 
   const fetchMateriais = async () => {
     try {
@@ -92,7 +92,7 @@ export default function App() {
       />
       <TextInput
         placeholder="Quantidade"
-        value={local}
+        value={quantidade}
         onChangeText={setQuantidade}
         style={{ borderBottomWidth: 1, marginBottom: 10 }}
       />

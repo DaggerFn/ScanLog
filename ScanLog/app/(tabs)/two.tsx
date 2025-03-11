@@ -1,36 +1,5 @@
-{/*import { StyleSheet } from 'react-native';
-
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
-
-export default function TabTwoScreen() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab Two</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/two.tsx" />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});
-*/}
-
+{
+  /*
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Alert } from 'react-native';
 import { Table, TableWrapper, Row, Cell } from 'react-native-reanimated-table';
@@ -127,3 +96,77 @@ const styles = StyleSheet.create({
     color: '#fff'
   }
 });
+*/
+}
+
+import React from "react";
+import { StyleSheet, View, Text, Button, FlatList } from "react-native";
+import { useState, useEffect } from "react";
+import {
+  deleteMaterial,
+  getMateriais,
+  searchMaterial,
+} from "@/components/api/api";
+
+export default function App() {
+  const [materiais, setMateriais] = useState([]);
+
+  type listOfMaterials = {
+    id_material: undefined;
+    locale_material: undefined;
+  };
+
+  // Buscar materiais ao iniciar o app
+  useEffect(() => {
+    fetchMateriais();
+  }, []);
+
+  const fetchMateriais = async () => {
+    try {
+      const data = await getMateriais();
+      setMateriais(data);
+    } catch (error) {
+      console.error("Erro ao carregar materiais:", error);
+    }
+  };
+
+  const handleDelete = async (id_material: string) => {
+    try {
+      await deleteMaterial(id_material);
+      alert("Material deletado!");
+      fetchMateriais();
+    } catch (error) {
+      console.error("Erro ao deletar material:", error);
+    }
+  };
+
+  return (
+    <View style={{ padding: 20 }}>
+      <FlatList
+        data={materiais}
+        keyExtractor={(item) => item.id_material.toString()}
+        renderItem={({ item }) => (
+          <View
+            style={{
+              marginVertical: 10,
+              padding: 10,
+              borderWidth: 1,
+              borderRadius: 5,
+            }}
+          >
+            <Text>N° do Material: {item.id_material}</Text>
+            <Text>Descrição do Material: {item.description_material}</Text>
+            <Text>Local: {item.locale_material}</Text>
+            <Text>Quantidade: {item.quantidade}</Text>
+            <Text>Ultima modificação: {item.last_mod}</Text>
+
+            <Button
+              title="Deletar"
+              onPress={() => handleDelete(item.id_material)}
+            />
+          </View>
+        )}
+      />
+    </View>
+  );
+}
