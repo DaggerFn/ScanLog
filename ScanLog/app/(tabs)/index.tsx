@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
 import { View, Text, StyleSheet, Alert } from "react-native";
 import { useState } from "react";
 import { Input } from "@/components/input";
+import React from "react";
 
 export default function Index() {
   function handleMessage() {

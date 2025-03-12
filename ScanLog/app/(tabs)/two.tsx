@@ -100,16 +100,25 @@ const styles = StyleSheet.create({
 }
 
 import React from "react";
-import { StyleSheet, View, Text, Button, FlatList } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Button,
+  FlatList,
+  TextInput,
+} from "react-native";
 import { useState, useEffect } from "react";
 import {
   deleteMaterial,
   getMateriais,
   searchMaterial,
 } from "@/components/api/api";
+import { styles } from "@/components/button/styles";
 
 export default function App() {
   const [materiais, setMateriais] = useState([]);
+  const [search, setSearch] = useState([]);
 
   type listOfMaterials = {
     id_material: undefined;
@@ -142,6 +151,13 @@ export default function App() {
 
   return (
     <View style={{ padding: 20 }}>
+      {/* <TextInput placeholder="Pesquisar Material" style={styles.title} /> */}
+      <TextInput
+        style={style.input}
+        placeholder="Pesquisar Material"
+        value={search}
+        onChangeText={setSearch}
+      />
       <FlatList
         data={materiais}
         keyExtractor={(item) => item.id_material.toString()}
@@ -170,3 +186,18 @@ export default function App() {
     </View>
   );
 }
+
+const style = StyleSheet.create({
+  input: {
+    flex: 1,
+    height: 50,
+    // backgroundColor: "#363636",
+    backgroundColor: "grey",
+    margin: 30,
+    borderRadius: 5,
+    fontSize: 19,
+    paddingLeft: 15,
+    paddingRight: 15,
+    color: "#FFFFFF",
+  },
+});
