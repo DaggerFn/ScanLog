@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Modal, View, Text, Button, StyleSheet, TextInput } from "react-native";
 import { createMaterial, searchMaterial } from "./api/api";
-import { checkBoxList } from "./CheckBox";
 
 interface RegisterModalProps {
   visible: boolean;
@@ -20,6 +19,10 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
   const [description_material, setdescription_material] = useState("");
   const [quantidade, setQuantidade] = useState("");
 
+  useEffect(() => {
+    console.log(scannedData);
+    verificarCaractere(scannedData, "-");
+  });
   const fetchMateriais = async () => {
     try {
       const data = await searchMaterial(scannedData);
@@ -46,6 +49,18 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
       console.error("Erro ao criar material:", error);
     }
   };
+
+  function verificarCaractere(str: string, caractere: string): boolean {
+    if (str.includes(caractere)) {
+      console.log(`A string: "${str}" contém o caractere "${caractere}".`);
+      setLocal(str);
+      return true;
+    } else {
+      console.log(`A string: "${str}" NÃO contém o caractere "${caractere}".`);
+      setId(str);
+      return false;
+    }
+  }
 
   return (
     <Modal
