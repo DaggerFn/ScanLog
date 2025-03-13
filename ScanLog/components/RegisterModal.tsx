@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
     width: "100%",
-    maxHeight: "60%",
+    maxHeight: "73%",
     borderColor: "#ddd",
     borderWidth: 1,
     shadowColor: "#000",
