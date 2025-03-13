@@ -50,15 +50,19 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
     }
   };
 
-  function verificarCaractere(str: string, caractere: string): boolean {
-    if (str.includes(caractere)) {
-      console.log(`A string: "${str}" contém o caractere "${caractere}".`);
-      setLocal(str);
-      return true;
-    } else {
-      console.log(`A string: "${str}" NÃO contém o caractere "${caractere}".`);
-      setId(str);
-      return false;
+  function verificarCaractere(str: string, caractere: string) {
+    if (str !== "") {
+      if (str.includes(caractere)) {
+        console.log(`A string: "${str}" contém o caractere "${caractere}".`);
+        setLocal(str);
+        console.log("if");
+      } else {
+        console.log(
+          `A string: "${str}" NÃO contém o caractere "${caractere}".`
+        );
+        console.log(`else`);
+        setId(str);
+      }
     }
   }
 
