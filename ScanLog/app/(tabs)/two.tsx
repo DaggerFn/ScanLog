@@ -115,15 +115,23 @@ import {
   searchMaterial,
 } from "@/components/api/api";
 import { styles } from "@/components/button/styles";
+import { Float } from "react-native/Libraries/Types/CodegenTypes";
 
 export default function App() {
   const [materiais, setMateriais] = useState([]);
-  const [search, setSearch] = useState([]);
+  const [search, setSearch] = useState<string | string>("");
 
-  type listOfMaterials = {
-    id_material: undefined;
-    locale_material: undefined;
-  };
+  interface dataTypes {
+    id_material: string;
+    description_material: string;
+    locale_material: string;
+    quantidade: Float;
+    last_mod: string;
+  }
+
+  useEffect(() => {
+    console.log(search);
+  }, [search]);
 
   // Buscar materiais ao iniciar o app
   useEffect(() => {
@@ -158,7 +166,7 @@ export default function App() {
         value={search}
         onChangeText={setSearch}
       />
-      <FlatList
+      <FlatList<dataTypes>
         data={materiais}
         keyExtractor={(item) => item.id_material.toString()}
         renderItem={({ item }) => (
