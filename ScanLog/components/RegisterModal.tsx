@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Modal, View, Text, Button, StyleSheet, TextInput } from "react-native";
-import { createMaterial, searchMaterial } from "./api/api";
+import { getMateriais, createMaterial, searchMaterial } from "./api/api";
 
 interface RegisterModalProps {
   visible: boolean;
@@ -25,7 +25,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
   });
   const fetchMateriais = async () => {
     try {
-      const data = await searchMaterial(scannedData);
+      const data = await getMateriais();
       setMateriais(data);
     } catch (error) {
       console.error("Erro ao carregar materiais:", error);
@@ -44,7 +44,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
         description_material: description_material,
       });
       alert("Material criado com sucesso!");
-      // fetchMateriais(); // Atualiza a lista
+      fetchMateriais(); // Atualiza a lista
     } catch (error) {
       console.error("Erro ao criar material:", error);
     }
@@ -55,7 +55,6 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
       if (str.includes(caractere)) {
         console.log(`A string: "${str}" contém o caractere "${caractere}".`);
         setLocal(str);
-        console.log("if");
       } else {
         console.log(
           `A string: "${str}" NÃO contém o caractere "${caractere}".`

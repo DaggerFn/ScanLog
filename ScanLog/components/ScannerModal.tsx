@@ -20,10 +20,10 @@ const ScannerModal: React.FC<ScannerModalProps> = ({
   useEffect(() => {
     if (valorAnterior.current !== null) {
       if (materiais !== valorAnterior.current) {
-        console.log("Valor mudou!");
-        console.log("Valor anterior:", valorAnterior.current);
-        console.log("Valor atual:", materiais);
-        // Aqui você pode chamar a função que quiser baseado nessa diferença
+        // console.log("Valor mudou!");
+        // console.log("Valor anterior:", valorAnterior.current);
+        // console.log("Valor atual:", materiais);
+        // // Aqui você pode chamar a função que quiser baseado nessa diferença
         fetchMateriais();
       }
     }

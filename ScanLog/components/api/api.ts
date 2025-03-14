@@ -2,7 +2,8 @@ import axios from "axios";
 
 // URL base da API Flask
 // const API_URL = "http://127.0.0.1:4000"; // Altere se necessário
-const API_URL = "http://192.168.177.172:4000"; // Altere se necessário
+
+const API_URL = "http://192.168.177.60:4000"; // Altere se necessário
 
 // Criando uma instância do Axios
 const api = axios.create({
@@ -18,7 +19,6 @@ export const getMateriais = async () => {
     const response = await api.get("/materiais");
     return response.data;
   } catch (error) {
-    10143315;
     console.error("Erro ao buscar materiais:", error);
     throw error;
   }
@@ -71,7 +71,7 @@ export const searchMaterial = async (id: unknown) => {
 
   try {
     const response = await api.get(`/materiais/${id}`);
-    console.log(response.data);
+    // console.log(response.data);
     return response.data;
   } catch (error) {
     console.error("Erro ao buscar materiais:", error);

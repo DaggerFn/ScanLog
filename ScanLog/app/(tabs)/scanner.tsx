@@ -1,13 +1,11 @@
 import { CameraView } from "expo-camera";
 import { Stack } from "expo-router";
 import { useState } from "react";
-import { StyleSheet, SafeAreaView, Pressable } from "react-native";
+import { StyleSheet, SafeAreaView, View } from "react-native";
 import ScannerModal from "@/components/ScannerModal";
 import RegisterModal from "@/components/RegisterModal";
 import React from "react";
-import { Button } from "@/components/button";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 export default function Home() {
   const [scannedData, setScannedData] = useState<string | null>(null);
@@ -24,10 +22,12 @@ export default function Home() {
   // }
 
   function handleBarcodeScanned({ data }: { data: string }) {
-    console.log("QR Code escaneado:", data);
+    // console.log("QR Code escaneado:", data);
     if (isSelectedScanner == true) {
       setScannedData(data);
       setModalVisible(true);
+    } else if (modalVisibleRegister == true) {
+      setScannedData(data);
     }
   }
 
@@ -39,38 +39,37 @@ export default function Home() {
   return (
     <SafeAreaView style={StyleSheet.absoluteFillObject}>
       <Stack.Screen options={{ title: "Scanner", headerShown: false }} />
+
+      {/* Câmera */}
       <CameraView
         style={StyleSheet.absoluteFill}
         facing="back"
         onBarcodeScanned={handleBarcodeScanned}
       />
-      {/* <Button
-        title="QR"
-        onPress={() => handleBarcodeScanned({ data: dataTest })}
-      />
-      <Button title="Registrar" onPress={() => handlerRegModal()} /> */}
-      {/* <Pressable>
-        {({ pressed }) => (
-          <FontAwesome
-            name="info-circle"
-            size={25}
-            style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-          />
-        )}
-      </Pressable> */}
-      <BouncyCheckbox
-        isChecked={modalVisibleRegister}
-        onPress={handlerRegModal}
-        text="Registrar"
-      />
-      <BouncyCheckbox
-        isChecked={isSelectedScanner}
-        onPress={setSelectionScanner}
-        text="Scannear"
-      />
-      {/*
-      Modal de exibição do QR Code
-             */}
+
+      {/* Wrapper dos Checkboxes */}
+      <View style={styles.checkboxWrapper}>
+        <BouncyCheckbox
+          isChecked={modalVisibleRegister}
+          onPress={handlerRegModal}
+          text="Registrar"
+          fillColor="#4CAF50"
+          textStyle={styles.checkboxText}
+          iconStyle={styles.checkboxIcon}
+          innerIconStyle={styles.innerCheckboxIcon}
+        />
+        <BouncyCheckbox
+          isChecked={isSelectedScanner}
+          onPress={setSelectionScanner}
+          text="Scannear"
+          fillColor="#2196F3"
+          textStyle={styles.checkboxText}
+          iconStyle={styles.checkboxIcon}
+          innerIconStyle={styles.innerCheckboxIcon}
+        />
+      </View>
+
+      {/* Modais */}
       <ScannerModal
         visible={modalVisible}
         scannedData={scannedData || ""}
@@ -84,3 +83,32 @@ export default function Home() {
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  checkboxWrapper: {
+    position: "absolute",
+    top: 10, // Espaçamento do topo (pode ajustar conforme necessário)
+    left: 10,
+    right: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    backgroundColor: "rgba(0, 0, 0, 0.5)", // Fundo translúcido
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 12,
+    marginHorizontal: 10,
+  },
+  checkboxText: {
+    color: "red",
+    fontWeight: "bold",
+    fontSize: 28,
+  },
+  checkboxIcon: {
+    borderColor: "white",
+    borderWidth: 2,
+  },
+  innerCheckboxIcon: {
+    borderWidth: 2,
+    borderRadius: 4,
+  },
+});
