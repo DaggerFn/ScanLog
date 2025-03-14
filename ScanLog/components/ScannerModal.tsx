@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Modal, View, Text, Button, StyleSheet, FlatList } from "react-native";
 import { searchMaterial } from "./api/api";
 import { Float } from "react-native/Libraries/Types/CodegenTypes";
@@ -14,13 +14,23 @@ const ScannerModal: React.FC<ScannerModalProps> = ({
   scannedData,
   onClose,
 }) => {
-  const [materiais, setMateriais] = useState([]);
-  let previusMaterials = materiais;
+  const [materiais, setMateriais] = useState();
+  const valorAnterior = useRef<undefined | null>(null);
 
   useEffect(() => {
-    console.log("Valor anterior: ", previusMaterials[2]);
-    console.log("Valor atual: ", materiais[2]);
-  });
+    if (valorAnterior.current !== null) {
+      if (materiais !== valorAnterior.current) {
+        console.log("Valor mudou!");
+        console.log("Valor anterior:", valorAnterior.current);
+        console.log("Valor atual:", materiais);
+        // Aqui você pode chamar a função que quiser baseado nessa diferença
+        fetchMateriais();
+      }
+    }
+
+    // Atualizar a ref com o valor atual para a próxima comparação
+    valorAnterior.current = materiais;
+  }, [materiais]); // Sempre que 'materiais' mudar
 
   interface dataTypes {
     id: string;
