@@ -20,7 +20,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
   const [quantidade, setQuantidade] = useState("");
 
   useEffect(() => {
-    console.log(scannedData);
+    // console.log(scannedData);
     verificarCaractere(scannedData, "-");
   });
   const fetchMateriais = async () => {
@@ -60,7 +60,6 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
         console.log(
           `A string: "${str}" NÃO contém o caractere "${caractere}".`
         );
-        console.log(`else`);
         setId(str);
       }
     }

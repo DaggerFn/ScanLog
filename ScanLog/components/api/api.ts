@@ -1,8 +1,8 @@
 import axios from "axios";
 
 // URL base da API Flask
-const API_URL = "http://127.0.0.1:4000"; // Altere se necessário
-// const API_URL = "http://192.168.16.214:4000"; // Altere se necessário
+// const API_URL = "http://127.0.0.1:4000"; // Altere se necessário
+const API_URL = "http://192.168.106.147:4000"; // Altere se necessário
 
 // Criando uma instância do Axios
 const api = axios.create({
@@ -56,7 +56,7 @@ export const updateMaterial = async (
 };
 
 // Função DELETE - Deletar um material
-export const deleteMaterial = async (id: string) => {
+export const deleteMaterial = async (id: number) => {
   try {
     const response = await api.delete(`/materiais/${id}`);
     return response.data;

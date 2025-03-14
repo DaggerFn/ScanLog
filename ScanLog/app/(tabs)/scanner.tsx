@@ -13,7 +13,8 @@ export default function Home() {
   const [scannedData, setScannedData] = useState<string | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisibleRegister, setModalVisibleRegister] = useState(false);
-  const [isSelected, setSelection] = useState(false);
+  const [isSelectedRegister, setSelectionRegister] = useState(false);
+  const [isSelectedScanner, setSelectionScanner] = useState(false);
   const dataTest = "10161401";
 
   // function handleBarcodeScanned({ data }: { data: string }) {
@@ -24,29 +25,31 @@ export default function Home() {
 
   function handleBarcodeScanned({ data }: { data: string }) {
     console.log("QR Code escaneado:", data);
-    setScannedData(data);
-    setModalVisible(true);
+    if (isSelectedScanner == true) {
+      setScannedData(data);
+      setModalVisible(true);
+    }
   }
 
   function handlerRegModal() {
     setModalVisibleRegister(true);
+    setSelectionScanner(false);
   }
 
   return (
     <SafeAreaView style={StyleSheet.absoluteFillObject}>
-      <Stack.Screen options={{ title: "Overview", headerShown: false }} />
-
+      <Stack.Screen options={{ title: "Scanner", headerShown: false }} />
       <CameraView
         style={StyleSheet.absoluteFill}
         facing="back"
         onBarcodeScanned={handleBarcodeScanned}
       />
-      <Button
+      {/* <Button
         title="QR"
         onPress={() => handleBarcodeScanned({ data: dataTest })}
       />
-      <Button title="Registrar" onPress={() => handlerRegModal()} />
-      <Pressable>
+      <Button title="Registrar" onPress={() => handlerRegModal()} /> */}
+      {/* <Pressable>
         {({ pressed }) => (
           <FontAwesome
             name="info-circle"
@@ -54,21 +57,25 @@ export default function Home() {
             style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
           />
         )}
-      </Pressable>
-
+      </Pressable> */}
       <BouncyCheckbox
-        isChecked={isSelected}
-        onPress={setSelection}
+        isChecked={modalVisibleRegister}
+        onPress={handlerRegModal}
         text="Registrar"
       />
+      <BouncyCheckbox
+        isChecked={isSelectedScanner}
+        onPress={setSelectionScanner}
+        text="Scannear"
+      />
       {/*
-       Modal de exibição do QR Code 
+      Modal de exibição do QR Code
+             */}
       <ScannerModal
         visible={modalVisible}
         scannedData={scannedData || ""}
         onClose={() => setModalVisible(false)}
       />
-       */}
       <RegisterModal
         visible={modalVisibleRegister}
         scannedData={scannedData || ""}

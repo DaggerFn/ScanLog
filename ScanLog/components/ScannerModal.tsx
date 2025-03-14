@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Modal, View, Text, Button, StyleSheet, FlatList } from "react-native";
 import { searchMaterial } from "./api/api";
+import { Float } from "react-native/Libraries/Types/CodegenTypes";
 
 interface ScannerModalProps {
   visible: boolean;
@@ -14,11 +15,26 @@ const ScannerModal: React.FC<ScannerModalProps> = ({
   onClose,
 }) => {
   const [materiais, setMateriais] = useState([]);
+  let previusMaterials = materiais;
+
+  useEffect(() => {
+    console.log("Valor anterior: ", previusMaterials[2]);
+    console.log("Valor atual: ", materiais[2]);
+  });
+
+  interface dataTypes {
+    id: string;
+    id_material: number;
+    locale_material: string;
+    quantidade: Float;
+    description_material: string;
+  }
 
   const fetchMateriais = async () => {
     try {
       const data = await searchMaterial(scannedData);
       setMateriais(data);
+      // console.log("data:", data);
     } catch (error) {
       console.error("Erro ao carregar materiais:", error);
     }
@@ -36,10 +52,9 @@ const ScannerModal: React.FC<ScannerModalProps> = ({
         <View style={styles.modalContent}>
           <Text style={styles.title}>QR Code:</Text>
           <Text style={styles.scannedData}>{scannedData}</Text>
-
-          <FlatList
+          <FlatList<dataTypes>
             data={materiais}
-            keyExtractor={(item) => item.id_material.toString()}
+            keyExtractor={(item) => item.id.toString()}
             style={styles.list}
             contentContainerStyle={{ paddingBottom: 10 }}
             showsVerticalScrollIndicator={false}
