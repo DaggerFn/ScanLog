@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Modal, View, Text, Button, StyleSheet, TextInput } from "react-native";
+import {
+  TouchableOpacity,
+  Modal,
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  TextInput,
+} from "react-native";
 import { getMateriais, createMaterial, searchMaterial } from "./api/api";
 
 interface RegisterModalProps {
@@ -88,12 +96,33 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
               onChangeText={setLocal}
               style={styles.input}
             />
-            <TextInput
-              placeholder="Quantidade"
-              value={quantidade}
-              onChangeText={setQuantidade}
-              style={styles.input}
-            />
+            <View style={styles.quantityContainer}>
+              <TextInput
+                placeholder="Quantidade"
+                value={quantidade}
+                onChangeText={setQuantidade}
+                style={styles.quantityInput}
+                keyboardType="numeric"
+              />
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() =>
+                  setQuantidade((prev) => (Number(prev) + 1).toString())
+                }
+              >
+                <Text style={styles.buttonText}>+</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() =>
+                  setQuantidade((prev) =>
+                    Number(prev) > 0 ? (Number(prev) - 1).toString() : "0"
+                  )
+                }
+              >
+                <Text style={styles.buttonText}>-</Text>
+              </TouchableOpacity>
+            </View>
             <TextInput
               placeholder="Descrição <API>"
               value={description_material}
@@ -168,6 +197,30 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginTop: 8,
+  },
+  quantityContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+    marginBottom: 10,
+  },
+  quantityInput: {
+    flex: 1,
+    paddingVertical: 8,
+    fontSize: 16,
+  },
+  button: {
+    backgroundColor: "#007bff",
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    marginLeft: 5,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
   },
 });
 

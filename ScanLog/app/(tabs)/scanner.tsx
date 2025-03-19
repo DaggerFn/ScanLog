@@ -1,19 +1,22 @@
 import { CameraView } from "expo-camera";
 import { Stack } from "expo-router";
 import { useState } from "react";
-import { StyleSheet, SafeAreaView, View } from "react-native";
+import {
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  View,
+} from "react-native";
 import ScannerModal from "@/components/ScannerModal";
 import RegisterModal from "@/components/RegisterModal";
 import React from "react";
-import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 export default function Home() {
   const [scannedData, setScannedData] = useState<string | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisibleRegister, setModalVisibleRegister] = useState(false);
-  const [isSelectedRegister, setSelectionRegister] = useState(false);
   const [isSelectedScanner, setSelectionScanner] = useState(false);
-  const dataTest = "10161401";
 
   // function handleBarcodeScanned({ data }: { data: string }) {
   //   console.log("QR Code escaneado:", data);
@@ -49,24 +52,26 @@ export default function Home() {
 
       {/* Wrapper dos Checkboxes */}
       <View style={styles.checkboxWrapper}>
-        <BouncyCheckbox
-          isChecked={modalVisibleRegister}
+        <TouchableOpacity
+          style={[
+            styles.button,
+            modalVisibleRegister && styles.buttonActive, // aplica o estilo ativo se modalVisibleRegister for true
+          ]}
           onPress={handlerRegModal}
-          text="Registrar"
-          fillColor="#4CAF50"
-          textStyle={styles.checkboxText}
-          iconStyle={styles.checkboxIcon}
-          innerIconStyle={styles.innerCheckboxIcon}
-        />
-        <BouncyCheckbox
-          isChecked={isSelectedScanner}
-          onPress={setSelectionScanner}
-          text="Scannear"
-          fillColor="#2196F3"
-          textStyle={styles.checkboxText}
-          iconStyle={styles.checkboxIcon}
-          innerIconStyle={styles.innerCheckboxIcon}
-        />
+        >
+          <Text style={styles.buttonText}>Registrar</Text>
+        </TouchableOpacity>
+
+        {/* Botão para Scannear */}
+        <TouchableOpacity
+          style={[
+            styles.button,
+            isSelectedScanner && styles.buttonActive, // aplica o estilo ativo se isSelectedScanner for true
+          ]}
+          onPress={() => setSelectionScanner((prev) => !prev)}
+        >
+          <Text style={styles.buttonText}>Consultar</Text>
+        </TouchableOpacity>
       </View>
 
       {/* Modais */}
@@ -98,17 +103,21 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     marginHorizontal: 10,
   },
-  checkboxText: {
-    color: "red",
-    fontWeight: "bold",
-    fontSize: 28,
+  container: {
+    padding: 16,
   },
-  checkboxIcon: {
-    borderColor: "white",
-    borderWidth: 2,
-  },
-  innerCheckboxIcon: {
-    borderWidth: 2,
+  button: {
+    backgroundColor: "#ddd",
+    padding: 12,
+    marginBottom: 10,
     borderRadius: 4,
+    alignItems: "center",
+  },
+  buttonActive: {
+    backgroundColor: "#4CAF50", // cor quando ativo; ajuste conforme necessário
+  },
+  buttonText: {
+    color: "#000",
+    fontSize: 22,
   },
 });
