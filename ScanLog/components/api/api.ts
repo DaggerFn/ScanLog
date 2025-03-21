@@ -1,10 +1,8 @@
 import axios from "axios";
 
 // URL base da API Flask
-// const api_url = "http://127.0.0.1:4000"; // Altere se necessário
-
-let api_url = "http://10.1.60.138:4000"; // Altere se necessário
-// const api_url = "http://192.168.106.147:4000"; // Altere se necessário
+// let api_url = "http://10.1.60.138:4000"; // Altere se necessário
+let api_url = "http://10.1.30.105:4000"; // Altere se necessário
 
 // Criando uma instância do Axios
 const api = axios.create({
@@ -81,7 +79,8 @@ export const searchMaterial = async (id: unknown) => {
 };
 
 export const defineApi = (api_value: string) => {
-  api_value == api_url;
+  api_url = api_value;
+  console.log("valor da api atual", api_url);
 };
 
 export default api;
