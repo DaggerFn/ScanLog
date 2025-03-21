@@ -14,6 +14,7 @@ import {
   searchMaterial,
 } from "@/components/api/api";
 import { Float } from "react-native/Libraries/Types/CodegenTypes";
+import ModalScreen from "@/app/modal";
 
 export default function App() {
   const [materiais, setMateriais] = useState([]);

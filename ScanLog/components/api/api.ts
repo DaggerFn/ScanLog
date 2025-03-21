@@ -1,14 +1,14 @@
 import axios from "axios";
 
 // URL base da API Flask
-// const API_URL = "http://127.0.0.1:4000"; // Altere se necessário
+// const api_url = "http://127.0.0.1:4000"; // Altere se necessário
 
-const API_URL = "http://10.1.60.138:4000"; // Altere se necessário
-// const API_URL = "http://192.168.106.147:4000"; // Altere se necessário
+let api_url = "http://10.1.60.138:4000"; // Altere se necessário
+// const api_url = "http://192.168.106.147:4000"; // Altere se necessário
 
 // Criando uma instância do Axios
 const api = axios.create({
-  baseURL: API_URL,
+  baseURL: api_url,
   headers: {
     "Content-Type": "application/json",
   },
@@ -78,6 +78,10 @@ export const searchMaterial = async (id: unknown) => {
     console.error("Erro ao buscar materiais:", error);
     throw error;
   }
+};
+
+export const defineApi = (api_value: string) => {
+  api_value == api_url;
 };
 
 export default api;
