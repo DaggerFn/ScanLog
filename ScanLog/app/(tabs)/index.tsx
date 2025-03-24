@@ -15,6 +15,7 @@ import {
 } from "@/components/api/api";
 import { Float } from "react-native/Libraries/Types/CodegenTypes";
 import ModalScreen from "@/app/modal";
+import { ButtonQR } from "@/components/button_qr";
 
 export default function App() {
   const [materiais, setMateriais] = useState([]);
@@ -61,6 +62,7 @@ export default function App() {
   return (
     // <View style={{ padding: 20 }}>
     <View>
+      <Button title="Update" onPress={fetchMateriais} />
       {/* <TextInput placeholder="Pesquisar Material" style={styles.title} /> */}
       <TextInput
         style={style.input}

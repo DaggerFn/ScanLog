@@ -1,8 +1,7 @@
 import axios from "axios";
 
 // URL base da API Flask
-// let api_url = "http://10.1.60.138:4000"; // Altere se necessário
-let api_url = "http://10.1.30.105:4000"; // Altere se necessário
+let api_url = "http://10.1.30.105:5000"; // Altere se necessário
 
 // Criando uma instância do Axios
 const api = axios.create({
@@ -15,6 +14,7 @@ const api = axios.create({
 // Função GET - Buscar todos os materiais
 export const getMateriais = async () => {
   try {
+    console.log("ip na chamada de <getMaterial>", api_url);
     const response = await api.get("/materiais");
     return response.data;
   } catch (error) {
@@ -78,6 +78,7 @@ export const searchMaterial = async (id: unknown) => {
   }
 };
 
+// Função que altera o ip, fornecido pelo usuario
 export const defineApi = (api_value: string) => {
   api_url = api_value;
   console.log("valor da api atual", api_url);
