@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // URL base da API Flask
-let api_url = "http://10.1.30.105:5000"; // Altere se necessário
+let api_url = "http://127.0.0.1:4000"; // Altere se necessário
 
 // Criando uma instância do Axios
 const api = axios.create({
@@ -14,7 +14,7 @@ const api = axios.create({
 // Função GET - Buscar todos os materiais
 export const getMateriais = async () => {
   try {
-    console.log("ip na chamada de <getMaterial>", api_url);
+    // console.log("ip na chamada de <getMaterial>", api_url);
     const response = await api.get("/materiais");
     return response.data;
   } catch (error) {
@@ -32,7 +32,7 @@ export const createMaterial = async (material: {
 }) => {
   try {
     const response = await api.post("/materiais", material);
-    console.log(response);
+    // console.log(response);
     return response.data;
   } catch (error) {
     console.error("Erro ao criar material:", error);
@@ -81,7 +81,7 @@ export const searchMaterial = async (id: unknown) => {
 // Função que altera o ip, fornecido pelo usuario
 export const defineApi = (api_value: string) => {
   api_url = api_value;
-  console.log("valor da api atual", api_url);
+  // console.log("valor da api atual", api_url);
 };
 
 export default api;

@@ -14,13 +14,15 @@ import {
   searchMaterial,
 } from "@/components/api/api";
 import { Float } from "react-native/Libraries/Types/CodegenTypes";
-import ModalScreen from "@/app/modal";
-import { ButtonQR } from "@/components/button_qr";
+import EditModal from "@/components/EditModal";
 
 export default function App() {
   const [materiais, setMateriais] = useState([]);
-  const [stateModal, setModal] = useState<boolean | boolean>(false);
+  const [stateModal, setModal] = useState(false);
   const [search, setSearch] = useState<string | string>("");
+  let [valueEditModal, setValueForEdit] = useState("");
+
+  let valor: string;
 
   interface dataTypes {
     id: number;
@@ -59,6 +61,11 @@ export default function App() {
     }
   };
 
+  function EditRegister(item: string) {
+    setValueForEdit(item);
+    setModal(true);
+  }
+
   return (
     // <View style={{ padding: 20 }}>
     <View>
@@ -87,17 +94,22 @@ export default function App() {
             <Text>Local: {item.locale_material}</Text>
             <Text>Quantidade: {item.quantidade}</Text>
             <Text>Ultima modificação: {item.last_mod}</Text>
-            {/* 
+
             <Button
               title="Editar"
-              onPress={() => handleDelete(item.id_material)}
-            /> */}
+              onPress={() => EditRegister((valor = item.id_material))}
+            />
             <Button
               title="Deletar"
               onPress={() => handleDelete(item.id_material)}
             />
           </View>
         )}
+      />
+      <EditModal
+        visible={stateModal}
+        data={valueEditModal}
+        onClose={() => setModal(false)}
       />
     </View>
   );
