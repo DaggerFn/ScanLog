@@ -8,7 +8,7 @@ import {
   StyleSheet,
   TextInput,
 } from "react-native";
-import { getMateriais, createMaterial, searchMaterial } from "./api/api";
+import { getMateriais, updateMaterial, searchMaterial } from "./api/api";
 
 interface EditModalProps {
   visible: boolean;
@@ -24,15 +24,20 @@ const EditModal: React.FC<EditModalProps> = ({ visible, data, onClose }) => {
   const [quantidade, setQuantidade] = useState("");
 
   useEffect(() => {
-    // console.log(data);
+    fetchMateriais;
   });
   const fetchMateriais = async () => {
     try {
-      const data = await getMateriais();
-      setMateriais(data);
+      const dataFetch = await searchMaterial(data);
+      setMateriais(dataFetch);
+      console.log(materiais);
     } catch (error) {
       console.error("Erro ao carregar materiais:", error);
     }
+  };
+
+  const mountValueData = () => {
+    // setLocal()
   };
 
   const handleCreate = async () => {
@@ -40,16 +45,14 @@ const EditModal: React.FC<EditModalProps> = ({ visible, data, onClose }) => {
       return alert("Preencha todos os campos!");
 
     try {
-      await createMaterial({
-        id_material: id_material,
+      await updateMaterial(data, {
         locale_material: local,
         quantidade: quantidade,
         description_material: description_material,
       });
-      alert("Material criado com sucesso!");
-      fetchMateriais(); // Atualiza a lista
+      alert("Material editado com sucesso!");
     } catch (error) {
-      console.error("Erro ao criar material:", error);
+      console.error("Erro ao editar material:", error);
     }
   };
 
@@ -112,7 +115,7 @@ const EditModal: React.FC<EditModalProps> = ({ visible, data, onClose }) => {
             />
             <View style={styles.buttonContainer}>
               <Button
-                title="Criar Material"
+                title="Editar Material"
                 onPress={handleCreate}
                 color="#007bff"
               />

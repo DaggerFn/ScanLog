@@ -1,7 +1,8 @@
 import axios from "axios";
+import { Float } from "react-native/Libraries/Types/CodegenTypes";
 
 // URL base da API Flask
-let api_url = "http://127.0.0.1:4000"; // Altere se necessário
+let api_url = "http://192.168.31.249:4000"; // Altere se necessário
 
 // Criando uma instância do Axios
 const api = axios.create({
@@ -43,7 +44,11 @@ export const createMaterial = async (material: {
 // Função PUT - Atualizar um material
 export const updateMaterial = async (
   id: string,
-  updatedData: { locale_material: string; description_material: string }
+  updatedData: {
+    locale_material: string;
+    quantidade: string;
+    description_material: string;
+  }
 ) => {
   try {
     const response = await api.put(`/${id}`, updatedData);
