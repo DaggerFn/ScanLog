@@ -18,34 +18,41 @@ interface EditModalProps {
 
 const EditModal: React.FC<EditModalProps> = ({ visible, data, onClose }) => {
   const [materiais, setMateriais] = useState([]);
-  const [id_material, setId] = useState("");
+  const [id_material, setId] = useState<number>();
   const [local, setLocal] = useState("");
-  const [description_material, setdescription_material] = useState("");
+  const [description_material, setDescriptionMaterial] = useState("");
   const [quantidade, setQuantidade] = useState("");
 
   useEffect(() => {
-    fetchMateriais;
-  });
-  const fetchMateriais = async () => {
-    try {
-      const dataFetch = await searchMaterial(data);
-      setMateriais(dataFetch);
-      console.log(materiais);
-    } catch (error) {
-      console.error("Erro ao carregar materiais:", error);
-    }
-  };
+    console.log("Effect");
+    const mountValueData = async () => {
+      try {
+        let dataFetch = await searchMaterial(data);
+        setMateriais(dataFetch);
 
-  const mountValueData = () => {
-    // setLocal()
-  };
+        // Verifica se há dados e atualiza os estados individuais
+        if (dataFetch.length > 0) {
+          const material = dataFetch[0]; // Pegando o primeiro item do array
+
+          setId(material.id_material);
+          setLocal(material.locale_material);
+          setDescriptionMaterial(material.description_material);
+          setQuantidade(material.quantidade.toString());
+        }
+      } catch (error) {
+        console.error("Erro na requisição:", error);
+      }
+    };
+    mountValueData();
+    console.log(data, materiais);
+  }, [data]);
 
   const handleCreate = async () => {
     if (!id_material || !description_material || !local)
       return alert("Preencha todos os campos!");
 
     try {
-      await updateMaterial(data, {
+      await updateMaterial(id_material, {
         locale_material: local,
         quantidade: quantidade,
         description_material: description_material,
@@ -110,7 +117,7 @@ const EditModal: React.FC<EditModalProps> = ({ visible, data, onClose }) => {
             <TextInput
               placeholder="Descrição <API>"
               value={description_material}
-              onChangeText={setdescription_material}
+              onChangeText={setDescriptionMaterial}
               style={styles.input}
             />
             <View style={styles.buttonContainer}>

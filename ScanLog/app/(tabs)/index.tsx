@@ -81,14 +81,7 @@ export default function App() {
         data={materiais}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <View
-            style={{
-              marginVertical: 10,
-              padding: 10,
-              borderWidth: 1,
-              borderRadius: 5,
-            }}
-          >
+          <View style={style.styleBox}>
             <Text>N° do Material: {item.id_material}</Text>
             <Text>Descrição do Material: {item.description_material}</Text>
             <Text>Local: {item.locale_material}</Text>
@@ -132,5 +125,14 @@ const style = StyleSheet.create({
     elevation: 2, // sombra Android
     borderWidth: 1,
     borderColor: "rgba(0, 0, 0, 0.1)", // borda sutil
+  },
+  styleBox: {
+    marginVertical: 10,
+    padding: 10,
+    borderWidth: 1,
+    borderRadius: 5,
+  },
+  buttonStyle: {
+    margin: 10,
   },
 });
