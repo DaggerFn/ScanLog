@@ -75,12 +75,12 @@ const EditModal: React.FC<EditModalProps> = ({ visible, data, onClose }) => {
           <View style={styles.card}>
             <Text style={styles.title}>QR Code Escaneado:</Text>
             <Text style={styles.data}>{data}</Text>
-            <TextInput
+            {/* <TextInput
               placeholder="N° do Material <QR>"
               value={data}
               onChangeText={setId}
               style={styles.input}
-            />
+            /> */}
             <TextInput
               placeholder="Local  <QR>"
               value={local}

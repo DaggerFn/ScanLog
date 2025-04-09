@@ -8,8 +8,8 @@ import {
   SafeAreaView,
   View,
 } from "react-native";
-import ScannerModal from "@/components/ScannerModal";
-import RegisterModal from "@/components/RegisterModal";
+import ScannerModal from "@/components/ScannerModal/ScannerModal";
+import RegisterModal from "@/components/RegisterModal/RegisterModal";
 import React from "react";
 
 export default function Home() {
