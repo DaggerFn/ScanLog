@@ -1,5 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Modal, View, Text, Button, StyleSheet, FlatList } from "react-native";
+import {
+  Modal,
+  View,
+  Text,
+  TouchableOpacity,
+  Button,
+  StyleSheet,
+  FlatList,
+  TextInput,
+} from "react-native";
 import { searchMaterial } from "./api/api";
 import { Float } from "react-native/Libraries/Types/CodegenTypes";
 
@@ -14,23 +23,9 @@ const ScannerModal: React.FC<ScannerModalProps> = ({
   scannedData,
   onClose,
 }) => {
-  const [materiais, setMateriais] = useState();
-  const valorAnterior = useRef<undefined | null>(null);
-
-  useEffect(() => {
-    if (valorAnterior.current !== null) {
-      if (materiais !== valorAnterior.current) {
-        // console.log("Valor mudou!");
-        // console.log("Valor anterior:", valorAnterior.current);
-        // console.log("Valor atual:", materiais);
-        // // Aqui você pode chamar a função que quiser baseado nessa diferença
-        fetchMateriais();
-      }
-    }
-
-    // Atualizar a ref com o valor atual para a próxima comparação
-    valorAnterior.current = materiais;
-  }, [materiais]); // Sempre que 'materiais' mudar
+  const [materiais, setMateriais] = useState<dataTypes[] | null>(null);
+  const [quantidade, setQuantidade] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
   interface dataTypes {
     id: string;
@@ -42,13 +37,26 @@ const ScannerModal: React.FC<ScannerModalProps> = ({
 
   const fetchMateriais = async () => {
     try {
+      setError(null); // Reset error state
       const data = await searchMaterial(scannedData);
-      setMateriais(data);
-      // console.log("data:", data);
+      if (data && data.length > 0) {
+        setMateriais(data);
+      } else {
+        setMateriais(null); // Clear materiais if no data is found
+        setError("Nenhum material encontrado.");
+      }
     } catch (error) {
-      console.error("Erro ao carregar materiais:", error);
+      setMateriais(null); // Clear materiais on error
+      setError("Material não foi Registrado ou não existe.");
+      // console.error("Erro ao carregar materiais:", error);
     }
   };
+
+  useEffect(() => {
+    if (scannedData) {
+      fetchMateriais(); // Fetch data whenever scannedData changes
+    }
+  }, [scannedData]);
 
   return (
     <Modal
@@ -62,25 +70,60 @@ const ScannerModal: React.FC<ScannerModalProps> = ({
         <View style={styles.modalContent}>
           <Text style={styles.title}>QR Code:</Text>
           <Text style={styles.scannedData}>{scannedData}</Text>
-          <FlatList<dataTypes>
-            data={materiais}
-            keyExtractor={(item) => item.id.toString()}
-            style={styles.list}
-            contentContainerStyle={{ paddingBottom: 10 }}
-            showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => (
-              <View style={styles.card}>
-                <Text style={styles.itemText}>ID: {item.id_material}</Text>
-                <Text style={styles.itemText}>
-                  Local: {item.locale_material}
-                </Text>
-                <Text style={styles.itemText}>Qtd: {item.quantidade}</Text>
-                <Text style={styles.itemText}>
-                  Descrição: {item.description_material}
-                </Text>
-              </View>
-            )}
-          />
+          {error ? (
+            <Text
+              style={{ color: "red", textAlign: "center", marginBottom: 10 }}
+            >
+              {error}
+            </Text>
+          ) : (
+            <FlatList<dataTypes>
+              data={materiais}
+              keyExtractor={(item) => item.id.toString()}
+              style={styles.list}
+              contentContainerStyle={{ paddingBottom: 10 }}
+              showsVerticalScrollIndicator={false}
+              renderItem={({ item }) => (
+                <View style={styles.card}>
+                  <Text style={styles.itemText}>ID: {item.id_material}</Text>
+                  <Text style={styles.itemText}>
+                    LOCAL: {item.locale_material}
+                  </Text>
+                  <View style={styles.quantityRow}>
+                    <Text style={styles.itemText}>QUANTIDADE: {}</Text>
+                    <TextInput
+                      placeholder="Quantidade"
+                      value={item.quantidade.toString()}
+                      onChangeText={setQuantidade}
+                      style={styles.quantityInput}
+                      keyboardType="numeric"
+                    />
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={() =>
+                        setQuantidade((prev) => (Number(prev) + 1).toString())
+                      }
+                    >
+                      <Text style={styles.buttonText}>+</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={() =>
+                        setQuantidade((prev) =>
+                          Number(prev) > 0 ? (Number(prev) - 1).toString() : "0"
+                        )
+                      }
+                    >
+                      <Text style={styles.buttonText}>-</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <Text style={styles.itemText}>
+                    DESCRIÇÃO: {item.description_material}
+                  </Text>
+                </View>
+              )}
+            />
+          )}
 
           <View style={styles.buttonContainer}>
             <Button title="Fechar" onPress={onClose} color="#007bff" />
@@ -94,7 +137,7 @@ const ScannerModal: React.FC<ScannerModalProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.5)",
+    // backgroundColor: "rgba(0,0,0,0.5)",
     justifyContent: "flex-end", // Fixa próximo ao rodapé
   },
   modalContent: {
@@ -114,13 +157,13 @@ const styles = StyleSheet.create({
     marginBottom: 60, // Espaço em relação ao footer
   },
   title: {
-    fontSize: 18,
+    fontSize: 22,
     fontWeight: "bold",
     marginBottom: 8,
     textAlign: "center",
   },
   scannedData: {
-    fontSize: 16,
+    fontSize: 22,
     color: "#555",
     marginBottom: 12,
     textAlign: "center",
@@ -137,12 +180,42 @@ const styles = StyleSheet.create({
     borderColor: "#eee",
   },
   itemText: {
-    fontSize: 16,
+    fontSize: 24,
     color: "#333",
     marginBottom: 4,
   },
   buttonContainer: {
     marginTop: 8,
+  },
+  quantityRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 8,
+  },
+  quantityInput: {
+    flex: 1,
+    paddingVertical: 8,
+    fontSize: 22,
+    marginHorizontal: 8,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 4,
+    textAlign: "center",
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 22,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  button: {
+    backgroundColor: "#007bff",
+    paddingVertical: 18,
+    paddingHorizontal: 12,
+    borderRadius: 4,
+    marginLeft: 5,
+    width: 55,
   },
 });
 

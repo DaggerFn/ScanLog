@@ -40,7 +40,7 @@ const EditModal: React.FC<EditModalProps> = ({ visible, data, onClose }) => {
           setQuantidade(material.quantidade.toString());
         }
       } catch (error) {
-        console.error("Erro na requisição:", error);
+        // console.error("Erro na requisição:", error);
       }
     };
     mountValueData();
