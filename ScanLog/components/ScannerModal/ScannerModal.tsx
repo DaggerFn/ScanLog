@@ -8,10 +8,8 @@ import {
   FlatList,
   TextInput,
 } from "react-native";
-import { searchMaterial } from "../api/api";
-import { Float } from "react-native/Libraries/Types/CodegenTypes";
+import { searchMaterial, updateMaterial } from "../api/api";
 import { styles } from "./style";
-
 interface ScannerModalProps {
   visible: boolean;
   scannedData: string;
@@ -31,7 +29,7 @@ const ScannerModal: React.FC<ScannerModalProps> = ({
     id: string;
     id_material: number;
     locale_material: string;
-    quantidade: Float;
+    quantidade: number;
     description_material: string;
   }
 
@@ -57,6 +55,56 @@ const ScannerModal: React.FC<ScannerModalProps> = ({
       fetchMateriais(); // Fetch data whenever scannedData changes
     }
   }, [scannedData]);
+
+  const incrementarQuantidade = (id: string) => {
+    const novaLista = materiais?.map((item) => {
+      if (item.id === id) {
+        const novaQuantidade = Number(item.quantidade || 0) + 1;
+        return { ...item, quantidade: novaQuantidade };
+      }
+      return item;
+    });
+    setMateriais(novaLista || []);
+  };
+
+  const decrementarQuantidade = (id: string) => {
+    const novaLista = materiais?.map((item) => {
+      if (item.id === id) {
+        const novaQuantidade = Math.max(0, Number(item.quantidade || 0) - 1);
+        return { ...item, quantidade: novaQuantidade };
+      }
+      return item;
+    });
+    setMateriais(novaLista || []);
+  };
+
+  const handleUpdate = async (id: string) => {
+    if (!quantidade) return a("Preencha todos os campos!");
+    try {
+      await updateMaterial(id, {
+        locale_material: "",
+        quantidade: quantidade,
+        description_material: "",
+      });
+      alert("Material atualizado com sucesso!");
+      fetchMateriais(); // Atualiza a lista
+    } catch (error) {
+      console.error("Erro ao atualizar material:", error);
+    }
+  };
+
+  const handleSalvarMaterial = async (item: dataTypes) => {
+    try {
+      await updateMaterial(item.id, {
+        locale_material: item.locale_material,
+        quantidade: item.quantidade.toString(),
+        description_material: item.description_material,
+      });
+      Alert.alert("Sucesso", "Material atualizado com sucesso!");
+    } catch (error) {
+      Alert.alert("Erro", "Não foi possível atualizar o material.");
+    }
+  };
 
   return (
     <Modal
@@ -90,32 +138,28 @@ const ScannerModal: React.FC<ScannerModalProps> = ({
                     LOCAL: {item.locale_material}
                   </Text>
                   <View style={styles.quantityRow}>
-                    <Text style={styles.itemText}>QUANTIDADE: {}</Text>
+                    <Text style={styles.itemText}>
+                      {/* QUANTIDADE: {item.quantidade?.toString() || "0"} */}
+                      QUANTIDADE:
+                    </Text>
                     <TextInput
                       placeholder="Quantidade"
-                      value={item.quantidade.toString()}
-                      onChangeText={setQuantidade}
+                      value={item.quantidade?.toString() || ""}
                       style={styles.quantityInput}
                       keyboardType="numeric"
-                    />
+                    />{" "}
                     <TouchableOpacity
                       style={styles.button}
-                      onPress={() =>
-                        setQuantidade((prev) => (Number(prev) + 1).toString())
-                      }
+                      onPress={() => incrementarQuantidade(item.id)}
                     >
                       <Text style={styles.buttonText}>+</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={styles.button}
-                      onPress={() =>
-                        setQuantidade((prev) =>
-                          Number(prev) > 0 ? (Number(prev) - 1).toString() : "0"
-                        )
-                      }
+                      onPress={() => decrementarQuantidade(item.id)}
                     >
                       <Text style={styles.buttonText}>-</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity>{" "}
                   </View>
                   <Text style={styles.itemText}>
                     DESCRIÇÃO: {item.description_material}
@@ -125,12 +169,18 @@ const ScannerModal: React.FC<ScannerModalProps> = ({
             />
           )}
 
+          <View style={styles.buttonContainerConfirmar}>
+            <Button title="Comfirmar" onPress={onClose} color="#4CAF50" />
+          </View>
           <View style={styles.buttonContainer}>
             <Button title="Fechar" onPress={onClose} color="#007bff" />
           </View>
-          <View style={styles.buttonContainer}>
-            <Button title="Comfirmar" onPress={onClose} color="#007bff" />
-          </View>
+          <TouchableOpacity
+            style={styles.buttonContainer}
+            onPress={() => handleSalvarMaterial(item.id)}
+          >
+            <Text style={styles.buttonContainer}>Salvar</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </Modal>
