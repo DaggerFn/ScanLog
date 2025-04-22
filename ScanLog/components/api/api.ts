@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // URL base da API Flask
-let api_url = "http://192.168.17.57:4000"; // Altere se necessário
+let api_url = "http://192.168.244.147:4000"; // Altere se necessário
 
 // Criando uma instância do Axios
 const api = axios.create({
@@ -42,7 +42,7 @@ export const createMaterial = async (material: {
 
 // Função PUT - Atualizar um material
 export const updateMaterial = async (
-  id: string,
+  id: number,
   updatedData: {
     locale_material: string;
     quantidade: string;
@@ -50,9 +50,11 @@ export const updateMaterial = async (
   }
 ) => {
   try {
-    const response = await api.put(`/${id}`, updatedData);
+    // Note a rota /materiais aqui
+    const response = await api.put(`/materiais/${id}`, updatedData);
     return response.data;
   } catch (error) {
+    console.log("item/id recebido pela fun da api :", id);
     console.error("Erro ao atualizar material:", error);
     throw error;
   }

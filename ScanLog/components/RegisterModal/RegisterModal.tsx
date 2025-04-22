@@ -131,14 +131,14 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
               style={styles.input}
             />
             <View style={styles.buttonContainer}>
+              <Button title="Fechar" onPress={onClose} color="#007bff" />
+            </View>
+            <View style={styles.buttonContainer}>
               <Button
                 title="Criar Material"
                 onPress={handleCreate}
-                color="#007bff"
+                color="#4CAF50"
               />
-            </View>
-            <View style={styles.buttonContainer}>
-              <Button title="Fechar" onPress={onClose} color="#007bff" />
             </View>
           </View>
         </View>

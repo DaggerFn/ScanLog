@@ -53,10 +53,6 @@ export const styles = StyleSheet.create({
   buttonContainer: {
     marginTop: 8,
   },
-  buttonContainerConfirmar: {
-    marginTop: 8,
-    color: "Green",
-  },
   quantityRow: {
     flexDirection: "row",
     alignItems: "center",
@@ -86,5 +82,16 @@ export const styles = StyleSheet.create({
     borderRadius: 4,
     marginLeft: 5,
     width: 55,
+  },
+  buttonEdit: {
+    color: "white",
+    backgroundColor: "#4CAF50",
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 4,
+    marginLeft: 0,
+    marginTop: 5,
+    width: "100%",
+    textAlign: "center",
   },
 });

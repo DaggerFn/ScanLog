@@ -78,31 +78,17 @@ const ScannerModal: React.FC<ScannerModalProps> = ({
     setMateriais(novaLista || []);
   };
 
-  const handleUpdate = async (id: string) => {
-    if (!quantidade) return a("Preencha todos os campos!");
-    try {
-      await updateMaterial(id, {
-        locale_material: "",
-        quantidade: quantidade,
-        description_material: "",
-      });
-      alert("Material atualizado com sucesso!");
-      fetchMateriais(); // Atualiza a lista
-    } catch (error) {
-      console.error("Erro ao atualizar material:", error);
-    }
-  };
-
   const handleSalvarMaterial = async (item: dataTypes) => {
     try {
-      await updateMaterial(item.id, {
+      await updateMaterial(item.id_material, {
         locale_material: item.locale_material,
         quantidade: item.quantidade.toString(),
         description_material: item.description_material,
       });
-      Alert.alert("Sucesso", "Material atualizado com sucesso!");
+      alert("Sucesso");
     } catch (error) {
-      Alert.alert("Erro", "Não foi possível atualizar o material.");
+      console.log("item ou id :", item.id);
+      alert("Erro");
     }
   };
 
@@ -169,18 +155,16 @@ const ScannerModal: React.FC<ScannerModalProps> = ({
             />
           )}
 
-          <View style={styles.buttonContainerConfirmar}>
-            <Button title="Comfirmar" onPress={onClose} color="#4CAF50" />
-          </View>
           <View style={styles.buttonContainer}>
             <Button title="Fechar" onPress={onClose} color="#007bff" />
+            <TouchableOpacity
+              onPress={() =>
+                materiais?.forEach((item) => handleSalvarMaterial(item))
+              }
+            >
+              <Text style={styles.buttonEdit}>Salvar</Text>
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity
-            style={styles.buttonContainer}
-            onPress={() => handleSalvarMaterial(item.id)}
-          >
-            <Text style={styles.buttonContainer}>Salvar</Text>
-          </TouchableOpacity>
         </View>
       </View>
     </Modal>
