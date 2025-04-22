@@ -90,14 +90,15 @@ export default function App() {
             <Text>Ultima modificação: {item.last_mod}</Text>
 
             <Button
+              color="#4CAF50"
               title="Editar"
               onPress={() => EditRegister((valor = item.id_material))}
             />
-            <Button
+            {/* <Button
               color="#F44336"
               title="Deletar"
               onPress={() => handleDelete(item.id_material)}
-            />
+            /> */}
           </View>
         )}
       />

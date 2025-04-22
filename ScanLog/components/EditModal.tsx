@@ -124,7 +124,7 @@ const EditModal: React.FC<EditModalProps> = ({ visible, data, onClose }) => {
               <Button
                 title="Editar Material"
                 onPress={handleCreate}
-                color="#007bff"
+                color="#4CAF50"
               />
             </View>
             <View style={styles.buttonContainer}>
