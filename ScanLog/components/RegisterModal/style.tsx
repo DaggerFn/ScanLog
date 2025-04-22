@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
     width: "100%",
-    maxHeight: "73%",
+    maxHeight: "60%",
     borderColor: "#ddd",
     borderWidth: 1,
     shadowColor: "#000",
@@ -31,13 +31,13 @@ export const styles = StyleSheet.create({
     borderColor: "#eee",
   },
   title: {
-    fontSize: 18,
+    fontSize: 22,
     fontWeight: "bold",
     marginBottom: 8,
     textAlign: "center",
   },
   scannedData: {
-    fontSize: 16,
+    fontSize: 22,
     color: "#555",
     marginBottom: 12,
     textAlign: "center",
@@ -47,7 +47,7 @@ export const styles = StyleSheet.create({
     borderBottomColor: "#ccc",
     marginBottom: 10,
     paddingVertical: 8,
-    fontSize: 16,
+    fontSize: 22,
   },
   buttonContainer: {
     marginTop: 8,
@@ -62,7 +62,7 @@ export const styles = StyleSheet.create({
   quantityInput: {
     flex: 1,
     paddingVertical: 8,
-    fontSize: 16,
+    fontSize: 22,
   },
   button: {
     backgroundColor: "#007bff",
@@ -72,8 +72,11 @@ export const styles = StyleSheet.create({
     borderRadius: 5,
   },
   buttonText: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "bold",
+    flex: 1,
+    paddingVertical: 8,
+    fontSize: 22,
+    marginHorizontal: 8,
+    borderRadius: 4,
+    textAlign: "center",
   },
 });

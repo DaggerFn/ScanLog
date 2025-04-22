@@ -68,10 +68,25 @@ export default function Home() {
             styles.button,
             isSelectedScanner && styles.buttonActive, // aplica o estilo ativo se isSelectedScanner for true
           ]}
-          onPress={() => setSelectionScanner((prev) => !prev)}
+          onPress={() => {
+            // Define um valor de teste para o modal
+            const testValue = "10121169";
+            setScannedData(testValue); // Define o valor de teste
+            setModalVisible(true); // Exibe o modal
+          }}
         >
           <Text style={styles.buttonText}>Consultar</Text>
         </TouchableOpacity>
+
+        {/* <TouchableOpacity
+          style={[
+            styles.button,
+            isSelectedScanner && styles.buttonActive, // aplica o estilo ativo se isSelectedScanner for true
+          ]}
+          onPress={() => setSelectionScanner((prev) => !prev)}
+        >
+          <Text style={styles.buttonText}>Consultar</Text>
+        </TouchableOpacity> */}
       </View>
 
       {/* Modais */}

@@ -85,7 +85,7 @@ const ScannerModal: React.FC<ScannerModalProps> = ({
         quantidade: item.quantidade.toString(),
         description_material: item.description_material,
       });
-      alert("Sucesso");
+      alert("Baixa de material realizada com sucesso!");
     } catch (error) {
       console.log("item ou id :", item.id);
       alert("Erro");

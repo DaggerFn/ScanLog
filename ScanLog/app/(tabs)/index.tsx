@@ -15,6 +15,7 @@ import {
 } from "@/components/api/api";
 import { Float } from "react-native/Libraries/Types/CodegenTypes";
 import EditModal from "@/components/EditModal";
+import Colors from "@/constants/Colors";
 
 export default function App() {
   const [materiais, setMateriais] = useState([]);
@@ -93,6 +94,7 @@ export default function App() {
               onPress={() => EditRegister((valor = item.id_material))}
             />
             <Button
+              color="#F44336"
               title="Deletar"
               onPress={() => handleDelete(item.id_material)}
             />
@@ -133,6 +135,6 @@ const style = StyleSheet.create({
     borderRadius: 5,
   },
   buttonStyle: {
-    margin: 10,
+    margin: 20,
   },
 });

@@ -92,6 +92,7 @@ export const styles = StyleSheet.create({
     marginLeft: 0,
     marginTop: 5,
     width: "100%",
+    fontSize: 17,
     textAlign: "center",
   },
 });
