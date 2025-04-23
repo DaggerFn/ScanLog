@@ -63,7 +63,7 @@ export default function Home() {
         </TouchableOpacity>
 
         {/* Botão para Scannear */}
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={[
             styles.button,
             isSelectedScanner && styles.buttonActive, // aplica o estilo ativo se isSelectedScanner for true
@@ -76,9 +76,9 @@ export default function Home() {
           }}
         >
           <Text style={styles.buttonText}>Consultar</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
-        {/* <TouchableOpacity
+        <TouchableOpacity
           style={[
             styles.button,
             isSelectedScanner && styles.buttonActive, // aplica o estilo ativo se isSelectedScanner for true
@@ -86,7 +86,7 @@ export default function Home() {
           onPress={() => setSelectionScanner((prev) => !prev)}
         >
           <Text style={styles.buttonText}>Consultar</Text>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
       </View>
 
       {/* Modais */}

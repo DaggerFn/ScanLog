@@ -32,9 +32,6 @@ export default function EditScreenInfo() {
           placeholder="Digite o IP"
           value={valor}
           onChangeText={setValor}
-          keyboardType="numeric"
-          autoCapitalize="none"
-          autoCorrect={false}
         />
       </View>
 
