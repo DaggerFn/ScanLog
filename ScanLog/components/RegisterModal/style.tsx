@@ -43,6 +43,7 @@ export const styles = StyleSheet.create({
     textAlign: "center",
   },
   input: {
+    width: 405,
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
     marginBottom: 10,
@@ -55,9 +56,8 @@ export const styles = StyleSheet.create({
   quantityContainer: {
     flexDirection: "row",
     alignItems: "center",
-    borderBottomWidth: 1,
     borderBottomColor: "#ccc",
-    marginBottom: 10,
+    marginBottom: 8,
   },
   quantityInput: {
     flex: 1,

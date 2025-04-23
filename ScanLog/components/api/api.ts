@@ -87,7 +87,8 @@ export const searchMaterial = async (id: string) => {
 // Função que altera o ip, fornecido pelo usuario
 export const defineApi = (api_value: string) => {
   api_url = api_value;
-  // console.log("valor da api atual", api_url);
+  api.defaults.baseURL = api_url; // Update the Axios instance baseURL
+  console.log("valor da api atual", api_url);
 };
 
 export default api;

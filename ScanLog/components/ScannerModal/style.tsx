@@ -65,6 +65,7 @@ export const styles = StyleSheet.create({
     fontSize: 22,
     marginHorizontal: 8,
     borderWidth: 1,
+    borderBottomWidth: 7,
     borderColor: "#ccc",
     borderRadius: 4,
     textAlign: "center",

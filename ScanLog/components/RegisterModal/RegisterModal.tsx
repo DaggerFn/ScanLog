@@ -1,15 +1,8 @@
 import React, { useEffect, useState } from "react";
-import {
-  TouchableOpacity,
-  Modal,
-  View,
-  Text,
-  Button,
-  StyleSheet,
-  TextInput,
-} from "react-native";
+import { TouchableOpacity, Modal, View, Text, Button } from "react-native";
 import { styles } from "./style";
 import { getMateriais, createMaterial } from "../api/api";
+import { HighlightedInput } from "../HighlightedInput/HighlightedInput";
 
 interface RegisterModalProps {
   visible: boolean;
@@ -85,24 +78,26 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
           <View style={styles.card}>
             <Text style={styles.title}>QR Code Escaneado:</Text>
             <Text style={styles.scannedData}>{scannedData}</Text>
-            <TextInput
+            <HighlightedInput
               placeholder="N° do Material <QR>"
               value={id_material}
               onChangeText={setId}
               style={styles.input}
+              keyboardType="numeric"
             />
-            <TextInput
+            <HighlightedInput
               placeholder="Local  <QR>"
               value={local}
               onChangeText={setLocal}
               style={styles.input}
+              keyboardType="numeric"
             />
             <View style={styles.quantityContainer}>
-              <TextInput
+              <HighlightedInput
                 placeholder="Quantidade"
                 value={quantidade}
                 onChangeText={setQuantidade}
-                style={styles.quantityInput}
+                style={styles.input}
                 keyboardType="numeric"
               />
               <TouchableOpacity
@@ -111,7 +106,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
                   setQuantidade((prev) => (Number(prev) + 1).toString())
                 }
               >
-                <Text style={styles.buttonText}>+</Text>
+                <Text style={styles.buttonText}> + </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.button}
@@ -124,7 +119,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
                 <Text style={styles.buttonText}>-</Text>
               </TouchableOpacity>
             </View>
-            <TextInput
+            <HighlightedInput
               placeholder="Descrição <API>"
               value={description_material}
               onChangeText={setdescription_material}
