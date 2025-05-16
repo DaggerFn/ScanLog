@@ -11,6 +11,8 @@ import {
 import ScannerModal from "@/components/ScannerModal/ScannerModal";
 import RegisterModal from "@/components/RegisterModal/RegisterModal";
 import React from "react";
+import { getApiMaterialInfo } from "@/components/api/get_api_material";
+import { Button } from "@/components/button";
 
 export default function Home() {
   const [scannedData, setScannedData] = useState<string | null>(null);
@@ -87,6 +89,12 @@ export default function Home() {
         >
           <Text style={styles.buttonText}>Consultar</Text>
         </TouchableOpacity>
+
+        <View>
+          <TouchableOpacity style={styles.button} onPress={getApiMaterialInfo}>
+            <Text style={styles.buttonText}>teste</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* Modais */}
