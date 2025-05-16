@@ -35,8 +35,8 @@ export default function Home() {
   }
 
   function handlerRegModal() {
-    setModalVisibleRegister(true);
     setSelectionScanner(false);
+    setModalVisibleRegister(true);
   }
 
   return (

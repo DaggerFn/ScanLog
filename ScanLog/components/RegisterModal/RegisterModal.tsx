@@ -126,7 +126,17 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
               style={styles.input}
             />
             <View style={styles.buttonContainer}>
-              <Button title="Fechar" onPress={onClose} color="#007bff" />
+              <Button
+                title="Fechar"
+                onPress={() => {
+                  setId("");
+                  setLocal("");
+                  setQuantidade("");
+                  setdescription_material("");
+                  onClose();
+                }}
+                color="#007bff"
+              />
             </View>
             <View style={styles.buttonContainer}>
               <Button

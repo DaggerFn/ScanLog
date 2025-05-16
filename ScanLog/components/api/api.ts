@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // URL base da API Flask
-let api_url = "http://192.168.244.147:4000"; // Altere se necessário
+let api_url = "http://192.168.136.147:4000";
 
 // Criando uma instância do Axios
 const api = axios.create({
