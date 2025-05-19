@@ -29,12 +29,12 @@ export function HighlightedInput({
     Animated.sequence([
       Animated.timing(highlight, {
         toValue: 1,
-        duration: 300,
+        duration: 900,
         useNativeDriver: false,
       }),
       Animated.timing(highlight, {
         toValue: 0,
-        duration: 400,
+        duration: 1000,
         useNativeDriver: false,
       }),
     ]).start();

@@ -90,11 +90,11 @@ export default function Home() {
           <Text style={styles.buttonText}>Consultar</Text>
         </TouchableOpacity>
 
-        <View>
+        {/* <View>
           <TouchableOpacity style={styles.button} onPress={getApiMaterialInfo}>
             <Text style={styles.buttonText}>teste</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
       </View>
 
       {/* Modais */}
@@ -115,7 +115,7 @@ export default function Home() {
 const styles = StyleSheet.create({
   checkboxWrapper: {
     position: "absolute",
-    top: 10, // Espaçamento do topo (pode ajustar conforme necessário)
+    top: 800, // Espaçamento do topo (pode ajustar conforme necessário)
     left: 10,
     right: 10,
     flexDirection: "row",

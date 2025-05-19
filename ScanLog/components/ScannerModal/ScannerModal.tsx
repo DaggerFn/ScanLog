@@ -33,6 +33,19 @@ const ScannerModal: React.FC<ScannerModalProps> = ({
     description_material: string;
   }
 
+  function alterarQuantidade(itemId: number, novoTexto: string) {
+    // Converte o texto em número; se não for número, usa 0 ou mantém o anterior
+    const novoValor = parseInt(novoTexto, 10) || 0;
+
+    setMateriais((old) =>
+      old
+        ? old.map((mat) =>
+            Number(mat.id) === itemId ? { ...mat, quantidade: novoValor } : mat
+          )
+        : []
+    );
+  }
+
   const fetchMateriais = async () => {
     try {
       setError(null); // Reset error state
@@ -124,16 +137,14 @@ const ScannerModal: React.FC<ScannerModalProps> = ({
                     LOCAL: {item.locale_material}
                   </Text>
                   <View style={styles.quantityRow}>
-                    <Text style={styles.itemText}>
-                      {/* QUANTIDADE: {item.quantidade?.toString() || "0"} */}
-                      QUANTIDADE:
-                    </Text>
+                    <Text style={styles.itemText}>QUANTIDADE:</Text>
                     <TextInput
-                      placeholder="Quantidade"
+                      placeholder=""
                       value={item.quantidade?.toString() || ""}
                       style={styles.quantityInput}
                       keyboardType="numeric"
-                    />{" "}
+                      onChangeText={(text) => alterarQuantidade(item.id, text)}
+                    />
                     <TouchableOpacity
                       style={styles.button}
                       onPress={() => incrementarQuantidade(item.id)}

@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { TouchableOpacity, Modal, View, Text, Button } from "react-native";
+import {
+  TouchableOpacity,
+  Modal,
+  View,
+  Text,
+  Button,
+  ScrollView,
+} from "react-native";
 import { styles } from "./style";
-import { getMateriais, createMaterial } from "../api/api";
+import { getMateriais, createMaterial, searchMaterial } from "../api/api";
 import { HighlightedInput } from "../HighlightedInput/HighlightedInput";
 
 interface RegisterModalProps {
@@ -20,11 +27,19 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
   const [local, setLocal] = useState("");
   const [description_material, setdescription_material] = useState("");
   const [quantidade, setQuantidade] = useState("");
+  const [materialExistente, setMaterialExistente] = useState(false);
 
   useEffect(() => {
-    // console.log(scannedData);
     verificarCaractere(scannedData, "-");
-  });
+    if (scannedData) {
+      searchMaterial(scannedData)
+        .then(() => setMaterialExistente(true))
+        .catch(() => setMaterialExistente(false));
+    } else {
+      setMaterialExistente(false);
+    }
+  }, [scannedData, visible]);
+
   const fetchMateriais = async () => {
     try {
       const data = await getMateriais();
@@ -55,12 +70,8 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
   function verificarCaractere(str: string, caractere: string) {
     if (str !== "") {
       if (str.includes(caractere)) {
-        console.log(`A string: "${str}" contém o caractere "${caractere}".`);
         setLocal(str);
       } else {
-        console.log(
-          `A string: "${str}" NÃO contém o caractere "${caractere}".`
-        );
         setId(str);
       }
     }
@@ -78,6 +89,19 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
           <View style={styles.card}>
             <Text style={styles.title}>QR Code Escaneado:</Text>
             <Text style={styles.scannedData}>{scannedData}</Text>
+            {materialExistente && (
+              <Text
+                style={{
+                  color: "red",
+                  fontWeight: "bold",
+                  marginBottom: 0,
+                  textAlign: "center",
+                }}
+              >
+                Este material já está registrado no sistema! Dê baixa ou exclua
+                antes de cadastrar novamente.
+              </Text>
+            )}
             <HighlightedInput
               placeholder="N° do Material <QR>"
               value={id_material}
@@ -139,11 +163,13 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
               />
             </View>
             <View style={styles.buttonContainer}>
-              <Button
-                title="Criar Material"
-                onPress={handleCreate}
-                color="#4CAF50"
-              />
+              {!materialExistente && (
+                <Button
+                  title="Criar Material"
+                  onPress={handleCreate}
+                  color="#4CAF50"
+                />
+              )}
             </View>
           </View>
         </View>
