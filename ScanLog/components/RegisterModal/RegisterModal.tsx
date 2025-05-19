@@ -50,8 +50,8 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
   };
 
   const handleCreate = async () => {
-    if (!id_material || !description_material || !local)
-      return alert("Preencha todos os campos!");
+    // if (!id_material || !description_material || !local)
+    if (!id_material || !local) return alert("Preencha todos os campos!");
 
     try {
       await createMaterial({
@@ -143,12 +143,12 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
                 <Text style={styles.buttonText}>-</Text>
               </TouchableOpacity>
             </View>
-            <HighlightedInput
+            {/* <HighlightedInput
               placeholder="Descrição <API>"
               value={description_material}
               onChangeText={setdescription_material}
               style={styles.input}
-            />
+            /> */}
             <View style={styles.buttonContainer}>
               <Button
                 title="Fechar"
