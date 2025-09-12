@@ -318,7 +318,7 @@ export default function App() {
               sortOrder.quantity && styles.activeFilterText,
             ]}
           >
-            Qtd {sortOrder.quantity === "asc" ? "(Menor)" : "(Maior)"}
+            Quantidade {sortOrder.quantity === "asc" ? "(Menor)" : "(Maior)"}
           </Text>
         </TouchableOpacity>
 
