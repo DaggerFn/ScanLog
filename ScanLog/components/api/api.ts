@@ -1,21 +1,98 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
-// URL base da API Flask
-// let api_url = "http://192.168.30.8:4000";
-let api_url = "http://127.0.0.1:4000";
+// ===================================================================
+// ARQUIVO DE CONFIGURAÇÃO E SERVIÇOS DA API
+// ===================================================================
 
-// Criando uma instância do Axios
+// --- Ponto Único de Configuração Inicial ---
+
+/**
+ * A chave usada para salvar e buscar a URL da API no armazenamento
+ * persistente do dispositivo.
+ */
+const API_URL_STORAGE_KEY = "@app_server_url";
+
+/**
+ * A URL padrão da API.
+ * Será usada APENAS se o usuário nunca tiver salvado uma URL personalizada.
+ * IMPORTANTE: Deve incluir o protocolo (http:// ou https://).
+ */
+const DEFAULT_API_URL = "http://192.168.12.206:5000";
+
+/**
+ * Cria a instância do Axios que será usada em todo o aplicativo.
+ * A `baseURL` é iniciada com o valor padrão e será atualizada dinamicamente
+ * pelas funções `loadApiConfig` e `saveAndSetApiUrl`.
+ */
 const api = axios.create({
-  baseURL: api_url,
+  baseURL: DEFAULT_API_URL,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
+// --- Funções de Gerenciamento da Configuração da API ---
+
+/**
+ * Carrega a URL da API do armazenamento persistente.
+ * Esta função DEVE ser chamada uma vez quando o aplicativo é iniciado (no App.tsx).
+ */
+export const loadApiConfig = async () => {
+  try {
+    const storedUrl = await AsyncStorage.getItem(API_URL_STORAGE_KEY);
+
+    if (storedUrl) {
+      // Se encontrou uma URL salva, atualiza a instância do Axios para usá-la.
+      api.defaults.baseURL = storedUrl;
+      console.log("✅ URL da API carregada do armazenamento:", storedUrl);
+    } else {
+      // Senão, a instância do Axios continuará usando a DEFAULT_API_URL.
+      console.log(
+        "ℹ️ Nenhuma URL salva encontrada. Usando o padrão:",
+        DEFAULT_API_URL
+      );
+    }
+  } catch (error) {
+    console.error("❌ Erro ao carregar a URL da API do AsyncStorage:", error);
+  }
+};
+
+/**
+ * Salva a nova URL da API no armazenamento persistente E atualiza
+ * a instância do Axios para uso imediato.
+ * Esta função deve ser chamada pela sua tela de configurações.
+ * @param apiUrlValue A nova URL fornecida pelo usuário.
+ */
+export const saveAndSetApiUrl = async (apiUrlValue: string) => {
+  if (!apiUrlValue || apiUrlValue.trim() === "") {
+    console.warn("Tentativa de salvar uma URL vazia.");
+    return;
+  }
+
+  // Garante que a URL tenha um protocolo (http://) para evitar Network Errors.
+  let fullUrl = apiUrlValue.trim();
+  if (!fullUrl.startsWith("http://") && !fullUrl.startsWith("https://")) {
+    fullUrl = `http://${fullUrl}`;
+  }
+
+  try {
+    await AsyncStorage.setItem(API_URL_STORAGE_KEY, fullUrl);
+    api.defaults.baseURL = fullUrl; // Atualiza a instância do Axios em tempo de execução.
+    console.log("✅ Nova URL da API salva e definida com sucesso:", fullUrl);
+  } catch (error) {
+    console.error("❌ Erro ao salvar a URL da API no AsyncStorage:", error);
+  }
+};
+
+// ===================================================================
+// FUNÇÕES DE REQUISIÇÃO PARA OS ENDPOINTS DA API
+// (Nenhuma mudança necessária aqui, elas usam a instância `api` já configurada)
+// ===================================================================
+
 // Função GET - Buscar todos os materiais
 export const getMateriais = async () => {
   try {
-    // console.log("ip na chamada de <getMaterial>", api_url);
     const response = await api.get("/materiais");
     return response.data;
   } catch (error) {
@@ -33,7 +110,6 @@ export const createMaterial = async (material: {
 }) => {
   try {
     const response = await api.post("/materiais", material);
-    // console.log(response);
     return response.data;
   } catch (error) {
     console.error("Erro ao criar material:", error);
@@ -51,11 +127,9 @@ export const updateMaterial = async (
   }
 ) => {
   try {
-    // Note a rota /materiais aqui
     const response = await api.put(`/materiais/${id}`, updatedData);
     return response.data;
   } catch (error) {
-    console.log("item/id recebido pela fun da api :", id);
     console.error("Erro ao atualizar material:", error);
     throw error;
   }
@@ -72,24 +146,16 @@ export const deleteMaterial = async (id: string) => {
   }
 };
 
+// Função GET - Buscar um material específico
 export const searchMaterial = async (id: string) => {
-  // id = "123123123"; // Para teste
-
   try {
     const response = await api.get(`/materiais/${id}`);
-    console.log(response.data);
     return response.data;
   } catch (error) {
-    // console.error("Erro ao buscar materiais:", error);
+    // console.error("Erro ao buscar material específico:", error); // Descomente se precisar de log detalhado
     throw error;
   }
 };
 
-// Função que altera o ip, fornecido pelo usuario
-export const defineApi = (api_value: string) => {
-  api_url = api_value;
-  api.defaults.baseURL = api_url; // Update the Axios instance baseURL
-  console.log("valor da api atual", api_url);
-};
-
+// Exporta a instância configurada do Axios para ser usada em outras partes do app.
 export default api;

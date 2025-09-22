@@ -15,10 +15,11 @@ export const styles = StyleSheet.create({
     maxHeight: "60%", // Limita altura do modal
     borderColor: "#ddd",
     borderWidth: 1,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: -3 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    boxShadow: "#000",
+    // shadowColor: "#000",
+    // shadowOffset: { width: 0, height: -3 },
+    // shadowOpacity: 0.1,
+    // shadowRadius: 4,
     elevation: 5,
     marginBottom: 60, // Espaço em relação ao footer
   },

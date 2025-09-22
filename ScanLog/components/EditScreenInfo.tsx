@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,14 +8,30 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
-import { defineApi, getMateriais } from "./api/api";
+import { getMateriais, saveAndSetApiUrl } from "./api/api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const IP_STORAGE_KEY = "@app_server_ip"; // Use a mesma chave
 
 export default function EditScreenInfo() {
   const [valor, setValor] = useState<string>("");
 
-  const passApiValue = () => {
-    defineApi(valor);
+  // Efeito para carregar o IP atual quando a tela abrir
+  useEffect(() => {
+    const getCurrentIp = async () => {
+      const currentIp = await AsyncStorage.getItem(IP_STORAGE_KEY);
+      if (currentIp) {
+        setValor(currentIp);
+      }
+    };
+    getCurrentIp();
+  }, []);
+
+  const handleSave = async () => {
+    await saveAndSetApiUrl(valor);
+    // Opcional: você pode querer testar a conexão aqui
     getMateriais();
+    alert("Endereço IP salvo com sucesso!");
   };
 
   return (
@@ -32,10 +48,12 @@ export default function EditScreenInfo() {
           placeholder="Digite o IP"
           value={valor}
           onChangeText={setValor}
+          autoCapitalize="none"
+          keyboardType="url"
         />
       </View>
 
-      <TouchableOpacity style={styles.button} onPress={passApiValue}>
+      <TouchableOpacity style={styles.button} onPress={handleSave}>
         <Text style={styles.buttonText}>Salvar</Text>
       </TouchableOpacity>
     </KeyboardAvoidingView>
