@@ -15,6 +15,7 @@ import {
   deleteMaterial,
   getMateriais,
   searchMaterial,
+  checkAndUpdateApiUrlFromRemoteConfig,
 } from "@/components/api/api";
 import EditModal from "@/components/EditModal";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
@@ -50,6 +51,7 @@ export default function App() {
 
   // Atualiza a lista filtrada sempre que a pesquisa ou o sort mudar
   useEffect(() => {
+    checkAndUpdateApiUrlFromRemoteConfig();
     if (search.trim() === "" && !sortOrder.date && !sortOrder.quantity) {
       setFilteredMateriais(materiais);
     } else {

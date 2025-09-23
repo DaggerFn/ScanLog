@@ -18,7 +18,7 @@ const API_URL_STORAGE_KEY = "@app_server_url";
  * Será usada APENAS se o usuário nunca tiver salvado uma URL personalizada.
  * IMPORTANTE: Deve incluir o protocolo (http:// ou https://).
  */
-const DEFAULT_API_URL = "http://192.168.12.206:5000";
+const DEFAULT_API_URL = "http://192.168.27.186:4000";
 
 /**
  * Cria a instância do Axios que será usada em todo o aplicativo.
@@ -154,6 +154,59 @@ export const searchMaterial = async (id: string) => {
   } catch (error) {
     // console.error("Erro ao buscar material específico:", error); // Descomente se precisar de log detalhado
     throw error;
+  }
+};
+
+/**
+ * Testa se a nova URL da API está acessível fazendo uma requisição GET em /materiais.
+ * Retorna true se conseguir acessar, false caso contrário.
+ */
+const testApiUrl = async (url: string): Promise<boolean> => {
+  try {
+    // Garante que a URL tenha protocolo
+    let fullUrl = url.trim();
+    if (!fullUrl.startsWith("http://") && !fullUrl.startsWith("https://")) {
+      fullUrl = `http://${fullUrl}`;
+    }
+    // Cria uma instância temporária do axios para testar
+    const tempApi = axios.create({
+      baseURL: fullUrl,
+      timeout: 4000,
+      headers: { "Content-Type": "application/json" },
+    });
+    await tempApi.get("/materiais");
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+/**
+ * Busca um JSON de configuração remota e, se houver instrução, testa e altera a URL da API.
+ */
+export const checkAndUpdateApiUrlFromRemoteConfig = async () => {
+  try {
+    // Usa a baseURL atual para buscar o config.json
+    const response = await api.get("/config");
+    const config = response.data;
+
+    if (config.change_server && config.new_server_url) {
+      const isValid = await testApiUrl(config.new_server_url);
+      if (isValid) {
+        await saveAndSetApiUrl(config.new_server_url);
+        console.log(
+          "🔄 URL da API alterada via configuração remota:",
+          config.new_server_url
+        );
+      } else {
+        console.warn(
+          "❌ Novo servidor informado no config.json está inacessível. Mantendo o servidor atual."
+        );
+      }
+    }
+  } catch (error) {
+    // Não faz nada se não encontrar o arquivo ou der erro
+    console.warn("Não foi possível buscar configuração remota:", error);
   }
 };
 
