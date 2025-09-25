@@ -12,7 +12,6 @@ import ScannerModal from "@/components/ScannerModal/ScannerModal";
 import RegisterModal from "@/components/RegisterModal/RegisterModal";
 import React from "react";
 import { getApiMaterialInfo } from "@/components/api/get_api_material";
-import { Button } from "@/components/button";
 
 export default function Home() {
   const [scannedData, setScannedData] = useState<string | null>(null);
@@ -115,7 +114,8 @@ export default function Home() {
 const styles = StyleSheet.create({
   checkboxWrapper: {
     position: "absolute",
-    top: 800, // Espaçamento do topo (pode ajustar conforme necessário)
+    // top: 800, // Espaçamento do topo (pode ajustar conforme necessário)
+    bottom: 30,
     left: 10,
     right: 10,
     flexDirection: "row",
