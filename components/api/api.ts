@@ -18,7 +18,7 @@ const API_URL_STORAGE_KEY = "@app_server_url";
  * Será usada APENAS se o usuário nunca tiver salvado uma URL personalizada.
  * IMPORTANTE: Deve incluir o protocolo (http:// ou https://).
  */
-const DEFAULT_API_URL = "http://192.168.28.184:5000";
+const DEFAULT_API_URL = "http://192.168.187.206:5000";
 
 /**
  * Cria a instância do Axios que será usada em todo o aplicativo.

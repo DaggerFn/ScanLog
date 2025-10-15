@@ -60,6 +60,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
         quantidade: quantidade,
         description_material: description_material,
       });
+      console.log("botao Pressionado");
       alert("Material criado com sucesso!");
       fetchMateriais(); // Atualiza a lista
     } catch (error) {
